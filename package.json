@@ -1,0 +1,33 @@
+{
+  "name": "js-framework-tachometer",
+  "private": true,
+  "version": "1.0.0",
+  "description": "A comparison of the perfomance of a few popular javascript frameworks using tachometer",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andrewiggins/js-framework-tachometer.git"
+  },
+  "author": "Andre Wiggins",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/andrewiggins/js-framework-tachometer/issues"
+  },
+  "homepage": "https://github.com/andrewiggins/js-framework-tachometer#readme",
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx}": [
+      "prettier --write"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "devDependencies": {
+    "husky": "^4.2.3",
+    "lint-staged": "^10.0.8",
+    "prettier": "^1.19.1",
+    "sade": "^1.7.3"
+  }
+}

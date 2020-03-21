@@ -1,0 +1,9 @@
+- Define framework specifiers
+  - name: substring match of `name-version-keyed`
+  - path: `frameworks/keyed/name`
+  - installed: only run frameworks with `package-lock.json` folder
+- Build `setup` command
+  - given a list of frameworks or the string `all`, recursively run `npm install` in framework directories
+- Build `start` command
+  - given a list of frameworks or `all`, run tachometer
+- Add `--benchmarks` option to limit which benches are made
