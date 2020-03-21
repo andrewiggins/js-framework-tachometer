@@ -14,6 +14,10 @@
     "url": "https://github.com/andrewiggins/js-framework-tachometer/issues"
   },
   "homepage": "https://github.com/andrewiggins/js-framework-tachometer#readme",
+  "workspaces": [
+    "frameworks/keyed/*",
+    "frameworks/non-keyed/*"
+  ],
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": [
       "prettier --write"
