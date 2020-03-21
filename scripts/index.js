@@ -2,6 +2,7 @@ const { readFileSync } = require("fs");
 const sade = require("sade");
 const { repoRoot } = require("./lib/paths");
 const { setup } = require("./setup");
+const { bench } = require("./bench");
 
 /**
  * @typedef {{ debug: boolean; }} CmdLineOptions
@@ -23,24 +24,35 @@ async function main() {
 		)
 		.action(setup);
 
-	const {
-		// @ts-ignore
-		args: [arg1, opts],
-		// @ts-ignore
-		handler
-	} = prog.parse(process.argv, { lazy: true });
+	prog
+		.command("bench")
+		.describe(
+			"Run tachometer on the given frameworks. Defaults to any framework that is setup. Can specify specific framworks by using folder name (e.g. 'preact', 'keyed/preact'). Use `all` to setup all frameworks."
+		)
+		.action(bench);
 
-	if (!arg1) {
-		throw new Error(
-			"Expected argument 'frameworks' to be non-null. Run `node ./scripts --help` for guidance."
-		);
+	// @ts-ignore
+	const { args, handler } = prog.parse(process.argv, { lazy: true });
+
+	let options;
+	let frameworks;
+	if (args.length == 1) {
+		frameworks = [];
+		options = args[0];
+	} else if (args.length == 2) {
+		options = args[1];
+
+		frameworks = [];
+		if (args[0]) {
+			frameworks.push(args[0]);
+		}
+
+		frameworks.push(...options._);
+	} else {
+		throw new Error("Unexpected number of arguments from sade!");
 	}
 
-	if (arg1) {
-		opts._.unshift(arg1);
-	}
-
-	return handler(opts._, opts);
+	return handler(frameworks, options);
 }
 
 main().catch(error => {

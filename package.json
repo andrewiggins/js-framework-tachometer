@@ -4,7 +4,8 @@
   "version": "1.0.0",
   "description": "A comparison of the perfomance of a few popular javascript frameworks using tachometer",
   "scripts": {
-    "setup": "node ./scripts setup"
+    "setup": "node ./scripts setup",
+    "bench": "node ./scripts bench"
   },
   "repository": {
     "type": "git",

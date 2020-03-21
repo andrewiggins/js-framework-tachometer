@@ -3,10 +3,16 @@ const { resolveFrameworkSpec } = require("./lib/frameworks");
 const { runNode, toCompletion } = require("./lib/node");
 
 /**
- * @param {string[]} specs
+ * @param {string[]} specs The frameworks requested by the user on the command line
  * @param {import('./index').CmdLineOptions} options
  */
 async function setup(specs, options) {
+	if (!specs || specs.length == 0) {
+		throw new Error(
+			"Expected argument 'frameworks' to be non-null. Run `node ./scripts --help` for guidance."
+		);
+	}
+
 	if (!process.env.npm_execpath) {
 		throw new Error(
 			"Please execute this task using 'npm run setup' or manually set the 'npm_execpath' environment variable"
