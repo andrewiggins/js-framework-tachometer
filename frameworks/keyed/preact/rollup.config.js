@@ -16,6 +16,7 @@ module.exports = {
 	},
 	plugins: [
 		babel({ exclude: /node_modules/ }),
+		// @ts-ignore - nodeResolve doesn't export .default in cjs import
 		nodeResolve({
 			extensions: [".mjs", ".js", ".jsx", ".json", ".node"]
 		}),

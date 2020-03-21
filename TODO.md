@@ -3,7 +3,9 @@
   - path: `frameworks/keyed/name`
   - installed: only run frameworks with `package-lock.json` folder
 - Build `setup` command
-  - given a list of frameworks or the string `all`, recursively run `npm install` in framework directories
+	- Run build-prod in setup directories
+	- Parse npm output into just what's meaningful
 - Build `start` command
-  - given a list of frameworks or `all`, run tachometer
+  - given a list of frameworks or the string `all`, run tachometer for each framework
+	- by default with no params it only runs installed frameworks
 - Add `--benchmarks` option to limit which benches are made

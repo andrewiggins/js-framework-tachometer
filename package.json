@@ -3,7 +3,9 @@
   "private": true,
   "version": "1.0.0",
   "description": "A comparison of the perfomance of a few popular javascript frameworks using tachometer",
-  "scripts": {},
+  "scripts": {
+    "setup": "node ./scripts setup"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/andrewiggins/js-framework-tachometer.git"
@@ -25,8 +27,10 @@
     }
   },
   "devDependencies": {
+    "globby": "^11.0.0",
     "husky": "^4.2.3",
     "lint-staged": "^10.0.8",
+    "mem": "^6.0.1",
     "prettier": "^1.19.1",
     "sade": "^1.7.3"
   }

@@ -2,6 +2,9 @@
   "name": "preact",
   "version": "1.0.0",
   "description": "Benchmark for preact",
+  "js-framework-tachometer": {
+    "frameworkPackage": "preact"
+  },
   "author": "Andre Wiggins",
   "license": "MIT",
   "private": true,
