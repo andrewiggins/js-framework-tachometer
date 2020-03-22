@@ -4,7 +4,7 @@
 #
 #################################################
 
-# We use the precense of a package-lock.json in framework folders
+# We use the presence of a package-lock.json in framework folders
 # to determine if that framework has been setup/installed so don't
 # check them in to source control
 package-lock.json
