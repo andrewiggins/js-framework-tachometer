@@ -1,6 +1,6 @@
 const path = require("path");
 const { resolveFrameworkSpec } = require("./lib/frameworks");
-const { runNode, toCompletion } = require("./lib/node");
+const { runNpm, ensureNpmPathSet, toCompletion } = require("./lib/node");
 
 /**
  * @param {string[]} specs The frameworks requested by the user on the command line
@@ -13,30 +13,25 @@ async function setup(specs, options) {
 		);
 	}
 
-	if (!process.env.npm_execpath) {
-		throw new Error(
-			"Please execute this task using 'npm run setup' or manually set the 'npm_execpath' environment variable"
-		);
-	}
+	ensureNpmPathSet();
 
 	console.log("Resolving specified frameworks...");
 	// @ts-ignore
 	const pkgPaths = (await Promise.all(specs.map(resolveFrameworkSpec))).flat();
 	console.log("Resolved to:", pkgPaths);
 
-	const tasks = pkgPaths.map(pkgPath => {
+	const tasks = pkgPaths.map(async pkgPath => {
 		const cwd = path.dirname(pkgPath);
-		console.log(`Running npm install in ${cwd}...`);
+		const name = path.basename(cwd);
+		const npmOptions = { cwd, debug: options.debug };
 
-		return toCompletion(
-			runNode(process.env.npm_execpath, ["install", "--quiet"], {
-				cwd,
-				stdio: ["ignore"], // TODO: Parse stdout and stderr into something meaningful and show to user
-				debug: options.debug
-			})
-		).finally(() => {
-			console.log(`Finished installing ${cwd}`);
-		});
+		console.log(`${name}: Running npm install... (0/2)`);
+		await toCompletion(runNpm(["install", "--quiet"], npmOptions));
+		console.log(`${name}: Finished installing (1/2)`);
+
+		console.log(`${name}: Building bundle... (1/2)`);
+		await toCompletion(runNpm(["run", "build:prod"], npmOptions));
+		console.log(`${name}: Finished building (2/2)`);
 	});
 
 	return Promise.all(tasks);

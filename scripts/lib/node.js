@@ -18,6 +18,24 @@ function runNode(path, args, options = {}) {
 	});
 }
 
+function ensureNpmPathSet() {
+	if (!process.env.npm_execpath) {
+		throw new Error(
+			"Please execute this task using 'npm run setup' or manually set the 'npm_execpath' environment variable"
+		);
+	}
+}
+
+/**
+ * @param {string[]} args
+ * @param {NodeOptions} [options]
+ */
+function runNpm(args, options = {}) {
+	ensureNpmPathSet();
+	options.stdio = "ignore";
+	return runNode(process.env.npm_execpath, args, options);
+}
+
 /**
  * @param {import('child_process').ChildProcess} childProcess
  * @returns {Promise<void>}
@@ -43,5 +61,7 @@ function toCompletion(childProcess) {
 
 module.exports = {
 	runNode,
+	runNpm,
+	ensureNpmPathSet,
 	toCompletion
 };
