@@ -3,8 +3,10 @@ const { readFile } = require("fs").promises;
 const memoize = require("mem");
 const {
 	repoRoot,
+	pathToUri,
 	getAllFrameworkPkgPaths,
-	getSetupFrameworkPkgPaths
+	getSetupFrameworkPkgPaths,
+	getBuiltFrameworkPkgPaths
 } = require("./paths");
 
 /**
@@ -14,12 +16,14 @@ const {
 async function resolveFrameworkSpec(spec) {
 	if (spec === "all") {
 		return getAllFrameworkPkgPaths();
-	} else if (spec === "installed") {
+	} else if (spec === "setup") {
 		return getSetupFrameworkPkgPaths();
+	} else if (spec === "built") {
+		return getBuiltFrameworkPkgPaths();
 	} else {
 		const pkgPaths = await getAllFrameworkPkgPaths();
 		const matchingPkgPaths = pkgPaths.filter(pkgPath =>
-			pkgPath.includes(path.normalize(spec))
+			pkgPath.includes(pathToUri(spec))
 		);
 
 		if (matchingPkgPaths.length == 0) {
@@ -70,7 +74,7 @@ const createFrameworkData = memoize(async pkgPath => {
 	}
 
 	return {
-		id: relativePath,
+		id: pathToUri(relativePath) + "/",
 		name,
 		versions,
 		path: relativePath,

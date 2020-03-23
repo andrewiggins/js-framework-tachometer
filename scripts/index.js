@@ -21,7 +21,7 @@ async function main() {
 	prog
 		.command("setup [frameworks]")
 		.describe(
-			"Setups the specified frameworks. Specify using folder name (e.g. 'preact', 'keyed/preact'). Use `all` to setup all frameworks."
+			"Setups the specified frameworks. Specify using folder name (e.g. 'preact', 'preact/', 'keyed/preact'). Use `all` to setup all frameworks."
 		)
 		.action(setup);
 
@@ -32,15 +32,16 @@ async function main() {
 			"Build the development bundle of the frameworks - possibly useful for debugging."
 		)
 		.describe(
-			"Builds the benches and the (optionally) specified frameworks. Defaults to any framework that is properly setup. Can specify specific frameworks by using folder name (e.g. 'preact', 'keyed/preact'). Use `all` to setup all frameworks."
+			"Builds the benches and the (optionally) specified frameworks. Defaults to any framework that is properly setup. Can specify specific frameworks by using folder name (e.g. 'preact', 'preact/', 'keyed/preact'). Use `all` to setup all frameworks."
 		)
 		.action(build);
 
 	prog
 		.command("bench")
 		.describe(
-			"Run tachometer on the (optionally) specified frameworks. Defaults to any framework that is properly built. Can specify specific frameworks by using folder name (e.g. 'preact', 'keyed/preact'). Use `all` to setup all frameworks."
+			"Run tachometer on the (optionally) specified frameworks. Defaults to any framework that is properly built. Can specify specific frameworks by using folder name (e.g. 'preact', 'preact/', 'keyed/preact'). Use `all` to setup all frameworks."
 		)
+		.option("-b --bench", "Which benchmarks you want to run")
 		.action(bench);
 
 	// @ts-ignore

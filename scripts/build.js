@@ -17,7 +17,7 @@ async function build(specs, options) {
 	const buildTask = options.debug ? "build:dev" : "build:prod";
 
 	if (!specs || specs.length == 0) {
-		specs = ["installed"];
+		specs = ["setup"];
 	}
 
 	console.log("Resolving specified frameworks...");
