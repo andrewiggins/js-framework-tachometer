@@ -2,6 +2,7 @@ const { readFileSync } = require("fs");
 const sade = require("sade");
 const { repoRoot } = require("./lib/paths");
 const { setup } = require("./setup");
+const { build } = require("./build");
 const { bench } = require("./bench");
 
 /**
@@ -20,14 +21,21 @@ async function main() {
 	prog
 		.command("setup [frameworks]")
 		.describe(
-			"Setups the given frameworks. Specify using folder name (e.g. 'preact', 'keyed/preact'). Use `all` to setup all frameworks."
+			"Setups the specified frameworks. Specify using folder name (e.g. 'preact', 'keyed/preact'). Use `all` to setup all frameworks."
 		)
 		.action(setup);
 
 	prog
+		.command("build")
+		.describe(
+			"Builds the benches and the (optionally) specified frameworks. Defaults to any framework that is properly setup. Can specify specific frameworks by using folder name (e.g. 'preact', 'keyed/preact'). Use `all` to setup all frameworks."
+		)
+		.action(build);
+
+	prog
 		.command("bench")
 		.describe(
-			"Run tachometer on the given frameworks. Defaults to any framework that is setup. Can specify specific framworks by using folder name (e.g. 'preact', 'keyed/preact'). Use `all` to setup all frameworks."
+			"Run tachometer on the (optionally) specified frameworks. Defaults to any framework that is properly built. Can specify specific frameworks by using folder name (e.g. 'preact', 'keyed/preact'). Use `all` to setup all frameworks."
 		)
 		.action(bench);
 

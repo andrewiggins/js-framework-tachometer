@@ -5,6 +5,7 @@
   "description": "A comparison of the perfomance of a few popular javascript frameworks using tachometer",
   "scripts": {
     "setup": "node ./scripts setup",
+    "build": "node ./scripts build",
     "bench": "node ./scripts bench"
   },
   "repository": {
