@@ -3,6 +3,7 @@ const { readFile, readdir } = require("fs").promises;
 const memoize = require("mem");
 const { repoRoot, pathToUri } = require("./paths");
 
+const INDEX_URL = "dist/index.js";
 const TITLE_REGEX = /<title>(.+)<\/title>/;
 const DESC_REGEX = /<meta name="description" content="(.+)" \/>/;
 const FRAMEWORK_URL_REGEX = /{{ FRAMEWORK_INDEX }}/g;
@@ -54,7 +55,7 @@ const getBenches = memoize(async function getBenches() {
  * @param {import('./frameworks').FrameworkData} framework
  */
 function buildFrameworkBench(bench, framework) {
-	const scriptUrl = `/${pathToUri(framework.path)}/dist/index.min.js`;
+	const scriptUrl = `/${pathToUri(framework.path)}/${INDEX_URL}`;
 	return bench.content.replace(FRAMEWORK_URL_REGEX, scriptUrl);
 }
 

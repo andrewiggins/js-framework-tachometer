@@ -27,6 +27,10 @@ async function main() {
 
 	prog
 		.command("build")
+		.option(
+			"-d --dev",
+			"Build the development bundle of the frameworks - possibly useful for debugging."
+		)
 		.describe(
 			"Builds the benches and the (optionally) specified frameworks. Defaults to any framework that is properly setup. Can specify specific frameworks by using folder name (e.g. 'preact', 'keyed/preact'). Use `all` to setup all frameworks."
 		)

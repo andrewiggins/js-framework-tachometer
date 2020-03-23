@@ -3,7 +3,6 @@ const { terser } = require("rollup-plugin-terser");
 const babel = require("rollup-plugin-babel");
 
 const minify = process.env.MINIFY !== "false";
-const extension = minify ? ".min.js" : ".js";
 
 module.exports = {
 	input: "src/index.js",
@@ -11,8 +10,8 @@ module.exports = {
 		dir: "dist",
 		format: "iife",
 		compact: minify,
-		entryFileNames: `[name]${extension}`,
-		chunkFileNames: `[name]-[hash]${extension}`
+		entryFileNames: `[name].js`,
+		chunkFileNames: `[name]-[hash].js`
 	},
 	plugins: [
 		babel({ exclude: /node_modules/ }),

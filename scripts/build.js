@@ -8,14 +8,13 @@ const {
 const { getBenches, buildFrameworkBench } = require("./lib/benches");
 const { runNpm, ensureNpmPathSet, toCompletion } = require("./lib/node");
 
-const INDEX_URL = "dist/index.min.js";
-
 /**
  * @param {string[]} specs The frameworks requested by the user on the command line
  * @param {import('./index').CmdLineOptions} options
  */
 async function build(specs, options) {
 	ensureNpmPathSet();
+	const buildTask = options.debug ? "build:dev" : "build:prod";
 
 	if (!specs || specs.length == 0) {
 		specs = ["installed"];
@@ -36,7 +35,7 @@ async function build(specs, options) {
 		const npmOptions = { cwd, debug: options.debug };
 
 		console.log(`${name}: Building bundle... (0/2)`);
-		await toCompletion(runNpm(["run", "build:prod"], npmOptions));
+		await toCompletion(runNpm(["run", buildTask], npmOptions));
 		console.log(`${name}: Finished bundling (1/2)`);
 
 		console.log(`${name}: Building benches... (1/2)`);
