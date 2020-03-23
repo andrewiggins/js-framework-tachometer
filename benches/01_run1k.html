@@ -8,12 +8,15 @@
 	</head>
 	<body>
 		<div id="main"></div>
-		<script type="text/javascript" src="/node_modules/afterframe/dist/afterframe.umd.js"></script>
+		<script
+			type="text/javascript"
+			src="/node_modules/afterframe/dist/afterframe.umd.js"
+		></script>
 		<script type="text/javascript" src="{{ FRAMEWORK_INDEX }}"></script>
 		<script type="module">
 			import * as bench from "/bench.js";
 
-			const button = document.getElementById("run");
+			const button = document.getElementById("add");
 			if (button == null) {
 				throw new Error("Could not find test run button");
 			}

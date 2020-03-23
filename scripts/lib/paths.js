@@ -34,15 +34,35 @@ const getBuiltFrameworkPkgPaths = memoize(async () => {
 
 /**
  * @param {import('./frameworks').FrameworkData[]} [frameworks]
+ * @param {import('./benches').Bench[]} [requestedBenches]
+ * @param {boolean} [debug]
  */
-async function getFrameworkBenchFiles(frameworks) {
+async function getFrameworkBenchFiles(
+	frameworks,
+	requestedBenches,
+	debug = false
+) {
+	let benchGlob;
+	if (Array.isArray(requestedBenches)) {
+		if (requestedBenches.length == 1) {
+			benchGlob = `/benches/${requestedBenches[0].id}.html`;
+		} else {
+			const fileNames = requestedBenches.map(b => b.id).join(",");
+			benchGlob = `/benches/{${fileNames}}.html`;
+		}
+	} else {
+		benchGlob = "/benches/*.html";
+	}
+
 	let globs;
 	if (frameworks == null) {
 		globs = ["frameworks/*/*/benches/*.html"];
 	} else {
-		globs = frameworks.map(f =>
-			normalizePath(path.join(f.path, "/benches/*.html"))
-		);
+		globs = frameworks.map(f => normalizePath(path.join(f.path, benchGlob)));
+	}
+
+	if (debug) {
+		console.log("Bench globs:", globs);
 	}
 
 	const benchFiles = await globby(globs, {

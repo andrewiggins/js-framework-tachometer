@@ -8,11 +8,21 @@ const TITLE_REGEX = /<title>(.+)<\/title>/;
 const DESC_REGEX = /<meta name="description" content="(.+)" \/>/;
 const FRAMEWORK_URL_REGEX = /{{ FRAMEWORK_INDEX }}/g;
 
+async function resolveBenchSpec(spec) {
+	if (spec == null || spec == "all") {
+		return getAllBenches();
+	} else {
+		const benchmarks = await getAllBenches();
+		const matches = benchmarks.filter(b => b.id.includes(spec));
+		return matches;
+	}
+}
+
 /**
  * @typedef {{ id: string; fileName: string; title: string; description: string; content: string; }} Bench
  * @returns {Promise<Bench[]>}
  */
-const getBenches = memoize(async function getBenches() {
+const getAllBenches = memoize(async function getAllBenches() {
 	const benchRoot = repoRoot("./benches");
 	const benchFiles = await readdir(benchRoot, {
 		withFileTypes: true
@@ -60,6 +70,7 @@ function buildFrameworkBench(bench, framework) {
 }
 
 module.exports = {
-	getBenches,
+	getAllBenches,
+	resolveBenchSpec,
 	buildFrameworkBench
 };

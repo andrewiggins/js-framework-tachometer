@@ -5,7 +5,7 @@ const {
 	resolveFrameworkSpec,
 	createFrameworkData
 } = require("./lib/frameworks");
-const { getBenches, buildFrameworkBench } = require("./lib/benches");
+const { getAllBenches, buildFrameworkBench } = require("./lib/benches");
 const { runNpm, ensureNpmPathSet, toCompletion } = require("./lib/node");
 
 /**
@@ -26,8 +26,7 @@ async function build(specs, options) {
 	const pkgPaths = (await Promise.all(specs.map(resolveFrameworkSpec))).flat();
 	console.log("Resolved to:", pkgPaths);
 
-	// Eagerly call getBenches to prime memoize cache
-	await getBenches();
+	const benches = await getAllBenches();
 
 	const tasks = pkgPaths.map(async pkgPath => {
 		const cwd = path.dirname(pkgPath);
@@ -40,7 +39,6 @@ async function build(specs, options) {
 
 		console.log(`${name}: Building benches... (1/2)`);
 		const framework = await createFrameworkData(pkgPath);
-		const benches = await getBenches();
 
 		const benchTasks = benches.map(async bench => {
 			const html = await buildFrameworkBench(bench, framework);

@@ -4,6 +4,7 @@ const {
 	resolveFrameworkSpec,
 	createFrameworkData
 } = require("./lib/frameworks");
+const { resolveBenchSpec } = require("./lib/benches");
 const { runNode, toCompletion } = require("./lib/node");
 
 /**
@@ -15,8 +16,16 @@ async function bench(specs, options) {
 		specs = ["built"];
 	}
 
+	let benchSpecs;
+	if (options.bench) {
+		benchSpecs = Array.isArray(options.bench) ? options.bench : [options.bench];
+	} else {
+		benchSpecs = ["all"];
+	}
+
 	console.log("Resolving specified frameworks...");
 
+	/** @type {string[]} */
 	// @ts-ignore
 	const pkgPaths = (await Promise.all(specs.map(resolveFrameworkSpec))).flat();
 	const frameworks = await Promise.all(pkgPaths.map(createFrameworkData));
@@ -24,8 +33,14 @@ async function bench(specs, options) {
 	console.log("Resolved to:", pkgPaths);
 	console.log("Resolving benchmarks to run...");
 
-	// TODO: Implement bench option
-	const benchmarks = await getFrameworkBenchFiles(frameworks);
+	/** @type {import('./lib/benches').Bench[]} */
+	// @ts-ignore
+	const benches = (await Promise.all(benchSpecs.map(resolveBenchSpec))).flat();
+	const benchmarks = await getFrameworkBenchFiles(
+		frameworks,
+		benches,
+		options.debug
+	);
 	const benchIds = Array.from(benchmarks.keys());
 
 	console.log("Resolved to:", benchIds);
@@ -38,7 +53,7 @@ async function bench(specs, options) {
 		const htmlFiles = benchmarks.get(benchId);
 		const args = htmlFiles;
 
-		await runNode(tachBin, args);
+		// await toCompletion(runNode(tachBin, args, { debug: options.debug }));
 
 		console.log(`${benchId}: Finished running benchmark`);
 	}
