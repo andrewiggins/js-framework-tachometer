@@ -1,11 +1,4 @@
-- Define framework specifiers
-  - name: substring match of `name-version-keyed`
-  - path: `frameworks/keyed/name`
-  - installed: only run frameworks with `package-lock.json` folder
-- Build `setup` command
-	- Run build-prod in setup directories
-	- Parse npm output into just what's meaningful
-- Build `start` command
-  - given a list of frameworks or the string `all`, run tachometer for each framework
-	- by default with no params it only runs installed frameworks
-- Add `--benchmarks` option to limit which benches are made
+- `runNpm`: Parse npm output into just what's meaningful
+- Build `index.html` at root of repository (or in `frameworks` directory for gh-pages?)
+	- `index.html` should be a file displays list of all benches
+	- Should allow grouping by framework or benchmark
