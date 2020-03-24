@@ -1,36 +1,43 @@
 const path = require("path");
 const { readFile } = require("fs").promises;
+const globby = require("globby");
 const memoize = require("mem");
-const {
-	repoRoot,
-	pathToUri,
-	getAllFrameworkPkgPaths,
-	getSetupFrameworkPkgPaths,
-	getBuiltFrameworkPkgPaths
-} = require("./paths");
+const { repoRoot, pathToUri } = require("./paths");
+
+const globbyOpts = { cwd: repoRoot() };
 
 /**
  * @param {string} spec
  * @returns {Promise<string[]>}
  */
 async function resolveFrameworkSpec(spec) {
-	if (spec === "all") {
-		return getAllFrameworkPkgPaths();
-	} else if (spec === "setup") {
-		return getSetupFrameworkPkgPaths();
-	} else if (spec === "built") {
-		return getBuiltFrameworkPkgPaths();
-	} else {
-		const pkgPaths = await getAllFrameworkPkgPaths();
-		const matchingPkgPaths = pkgPaths.filter(pkgPath =>
-			pkgPath.includes(pathToUri(spec))
+	if (spec === "setup") {
+		const pgkLockPaths = await globby(
+			["frameworks/*/*/package-lock.json"],
+			globbyOpts
 		);
 
-		if (matchingPkgPaths.length == 0) {
-			throw new Error(`No frameworks matched '${spec}'.`);
+		return pgkLockPaths.map(pkgLockPath =>
+			pkgLockPath.replace("package-lock.json", "package.json")
+		);
+	} else if (spec === "built") {
+		const bundles = await globby(["frameworks/*/*/dist/index.js"], globbyOpts);
+
+		return bundles.map(bundlePath =>
+			bundlePath.replace("dist/index.js", "package.json")
+		);
+	} else {
+		let pkgPaths = await globby(["frameworks/*/*/package.json"], globbyOpts);
+
+		if (spec !== "all") {
+			pkgPaths = pkgPaths.filter(pkgPath => pkgPath.includes(pathToUri(spec)));
+
+			if (pkgPaths.length == 0) {
+				throw new Error(`No frameworks matched '${spec}'.`);
+			}
 		}
 
-		return matchingPkgPaths;
+		return pkgPaths;
 	}
 }
 

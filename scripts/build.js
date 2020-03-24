@@ -1,12 +1,15 @@
 const path = require("path");
 const { writeFile, mkdir } = require("fs").promises;
-const { repoRoot } = require("./lib/paths");
+const { repoRoot, pathToUri } = require("./lib/paths");
 const {
 	resolveFrameworkSpec,
 	createFrameworkData
 } = require("./lib/frameworks");
-const { getAllBenches, buildFrameworkBench } = require("./lib/benches");
+const { getAllBenches } = require("./lib/benches");
 const { runNpm, ensureNpmPathSet, toCompletion } = require("./lib/node");
+
+const INDEX_URL = "dist/index.js";
+const FRAMEWORK_URL_REGEX = /{{ FRAMEWORK_INDEX }}/g;
 
 /**
  * @param {string[]} specs The frameworks requested by the user on the command line
@@ -41,7 +44,8 @@ async function build(specs, options) {
 		const framework = await createFrameworkData(pkgPath);
 
 		const benchTasks = benches.map(async bench => {
-			const html = await buildFrameworkBench(bench, framework);
+			const scriptUrl = `/${pathToUri(framework.path)}/${INDEX_URL}`;
+			const html = bench.content.replace(FRAMEWORK_URL_REGEX, scriptUrl);
 
 			const outputDir = repoRoot(framework.path, "benches");
 			await mkdir(outputDir, { recursive: true });

@@ -1,12 +1,12 @@
 const path = require("path");
 const { readFile, readdir } = require("fs").promises;
 const memoize = require("mem");
-const { repoRoot, pathToUri } = require("./paths");
+const globby = require("globby");
+const normalizePath = require("normalize-path");
+const { repoRoot } = require("./paths");
 
-const INDEX_URL = "dist/index.js";
 const TITLE_REGEX = /<title>(.+)<\/title>/;
 const DESC_REGEX = /<meta name="description" content="(.+)" \/>/;
-const FRAMEWORK_URL_REGEX = /{{ FRAMEWORK_INDEX }}/g;
 
 async function resolveBenchSpec(spec) {
 	if (spec == null || spec == "all") {
@@ -61,16 +61,59 @@ const getAllBenches = memoize(async function getAllBenches() {
 });
 
 /**
- * @param {Bench} bench
- * @param {import('./frameworks').FrameworkData} framework
+ * @param {import('./frameworks').FrameworkData[]} [frameworks]
+ * @param {import('./benches').Bench[]} [requestedBenches]
+ * @param {boolean} [debug]
  */
-function buildFrameworkBench(bench, framework) {
-	const scriptUrl = `/${pathToUri(framework.path)}/${INDEX_URL}`;
-	return bench.content.replace(FRAMEWORK_URL_REGEX, scriptUrl);
+async function getFrameworkBenchFiles(
+	frameworks,
+	requestedBenches,
+	debug = false
+) {
+	let benchGlob;
+	if (Array.isArray(requestedBenches)) {
+		if (requestedBenches.length == 1) {
+			benchGlob = `/benches/${requestedBenches[0].id}.html`;
+		} else {
+			const fileNames = requestedBenches.map(b => b.id).join(",");
+			benchGlob = `/benches/{${fileNames}}.html`;
+		}
+	} else {
+		benchGlob = "/benches/*.html";
+	}
+
+	let globs;
+	if (frameworks == null) {
+		globs = ["frameworks/*/*/benches/*.html"];
+	} else {
+		globs = frameworks.map(f => normalizePath(path.join(f.path, benchGlob)));
+	}
+
+	if (debug) {
+		console.log("Bench globs:", globs);
+	}
+
+	const benchFiles = await globby(globs, {
+		cwd: repoRoot()
+	});
+
+	/** @type Map<string, string[]> */
+	const benches = new Map();
+	for (const benchFile of benchFiles) {
+		const benchId = path.basename(benchFile).replace(".html", "");
+
+		if (!benches.has(benchId)) {
+			benches.set(benchId, []);
+		}
+
+		benches.get(benchId).push(benchFile);
+	}
+
+	return benches;
 }
 
 module.exports = {
 	getAllBenches,
 	resolveBenchSpec,
-	buildFrameworkBench
+	getFrameworkBenchFiles
 };

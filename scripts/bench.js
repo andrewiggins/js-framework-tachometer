@@ -1,10 +1,9 @@
-const path = require("path");
-const { repoRoot, getFrameworkBenchFiles } = require("./lib/paths");
+const { repoRoot } = require("./lib/paths");
 const {
 	resolveFrameworkSpec,
 	createFrameworkData
 } = require("./lib/frameworks");
-const { resolveBenchSpec } = require("./lib/benches");
+const { resolveBenchSpec, getFrameworkBenchFiles } = require("./lib/benches");
 const { runNode, toCompletion } = require("./lib/node");
 
 /**
