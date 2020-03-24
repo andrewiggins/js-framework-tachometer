@@ -13,6 +13,7 @@ frameworks/*/*/benches
 # check them in to source control
 package-lock.json
 
+results
 .vscode/settings.json
 
 

@@ -1,10 +1,10 @@
 {
-  "name": "preact",
+  "name": "ivi",
   "private": true,
   "version": "1.0.0",
-  "description": "Benchmark for preact",
+  "description": "Benchmark for ivi",
   "js-framework-tachometer": {
-    "frameworkPackage": "preact"
+    "frameworkPackage": "ivi"
   },
   "author": "Andre Wiggins",
   "license": "MIT",
@@ -13,16 +13,13 @@
     "build:prod": "rollup -c"
   },
   "dependencies": {
-    "preact": "^10.3.4"
+    "ivi-html": "0.27.0",
+    "ivi": "0.27.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.9.0",
-    "@babel/preset-env": "^7.9.0",
-    "@babel/preset-react": "^7.9.1",
     "@rollup/plugin-node-resolve": "^7.1.1",
-    "cross-env": "^7.0.2",
+    "@rollup/plugin-replace": "^2.3.1",
     "rollup": "^2.1.0",
-    "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-terser": "^5.3.0"
   }
 }
