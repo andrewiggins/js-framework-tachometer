@@ -52,7 +52,7 @@ async function bench(specs, options) {
 		const htmlFiles = benchmarks.get(benchId);
 		const args = htmlFiles;
 
-		// await toCompletion(runNode(tachBin, args, { debug: options.debug }));
+		await toCompletion(runNode(tachBin, args, { debug: options.debug }));
 
 		console.log(`${benchId}: Finished running benchmark`);
 	}

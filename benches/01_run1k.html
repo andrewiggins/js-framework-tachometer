@@ -8,29 +8,15 @@
 	</head>
 	<body>
 		<div id="main"></div>
-		<script
-			type="text/javascript"
-			src="/node_modules/afterframe/dist/afterframe.umd.js"
-		></script>
 		<script type="text/javascript" src="{{ FRAMEWORK_INDEX }}"></script>
 		<script type="module">
 			import * as bench from "/bench.js";
+			import { getButton, testElement, afterFrame } from "/benches/util.js";
 
-			const button = document.getElementById("add");
-			if (button == null) {
-				throw new Error("Could not find test run button");
-			}
+			const button = getButton("add");
 
 			afterFrame(function() {
-				const testElement = document.querySelector(
-					"tr:nth-child(1000) > td:nth-child(2) > a"
-				);
-				if (testElement == null) {
-					throw new Error(
-						"Test failed. Rendering after one paint was not successful"
-					);
-				}
-
+				testElement("tr:nth-child(1000) > td:nth-child(2) > a");
 				bench.stop();
 			});
 

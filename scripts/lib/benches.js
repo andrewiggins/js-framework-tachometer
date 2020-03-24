@@ -23,39 +23,34 @@ async function resolveBenchSpec(spec) {
  * @returns {Promise<Bench[]>}
  */
 const getAllBenches = memoize(async function getAllBenches() {
-	const benchRoot = repoRoot("./benches");
-	const benchFiles = await readdir(benchRoot, {
-		withFileTypes: true
+	const benchFiles = await globby("benches/*.html", { cwd: repoRoot() });
+
+	const benches = benchFiles.map(async localPath => {
+		const fullPath = repoRoot(localPath);
+		const fileName = path.basename(fullPath);
+		const content = await readFile(fullPath, "utf-8");
+
+		const titleMatch = content.match(TITLE_REGEX);
+		const descMatch = content.match(DESC_REGEX);
+
+		if (titleMatch == null) {
+			throw new Error(`Bench ${fileName} does not contain a title tag.`);
+		}
+
+		if (descMatch == null) {
+			throw new Error(
+				`Bench ${fileName} does not contain a description meta tag.`
+			);
+		}
+
+		return {
+			id: fileName.replace(".html", ""),
+			fileName,
+			title: titleMatch[1],
+			description: descMatch[1],
+			content
+		};
 	});
-
-	const benches = benchFiles
-		.filter(entry => entry.isFile())
-		.map(async file => {
-			const fileName = file.name;
-			const fullPath = path.join(benchRoot, file.name);
-			const content = await readFile(fullPath, "utf-8");
-
-			const titleMatch = content.match(TITLE_REGEX);
-			const descMatch = content.match(DESC_REGEX);
-
-			if (titleMatch == null) {
-				throw new Error(`Bench ${fileName} does not contain a title tag.`);
-			}
-
-			if (descMatch == null) {
-				throw new Error(
-					`Bench ${fileName} does not contain a description meta tag.`
-				);
-			}
-
-			return {
-				id: fileName.replace(".html", ""),
-				fileName,
-				title: titleMatch[1],
-				description: descMatch[1],
-				content
-			};
-		});
 
 	return Promise.all(benches);
 });
