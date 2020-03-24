@@ -3,6 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "description": "Benchmark for preact",
+  "module": "dist/index.js",
   "js-framework-tachometer": {
     "frameworkPackage": "preact"
   },

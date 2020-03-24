@@ -8,7 +8,7 @@ const {
 const { getAllBenches } = require("./lib/benches");
 const { runNpm, ensureNpmPathSet, toCompletion } = require("./lib/node");
 
-const INDEX_URL = "dist/index.js";
+const SCRIPT_TYPE_REGEX = /{{ SCRIPT_TYPE }}/g;
 const FRAMEWORK_URL_REGEX = /{{ FRAMEWORK_INDEX }}/g;
 
 /**
@@ -44,8 +44,10 @@ async function build(specs, options) {
 		const framework = await createFrameworkData(pkgPath);
 
 		const benchTasks = benches.map(async bench => {
-			const scriptUrl = `/${pathToUri(framework.path)}/${INDEX_URL}`;
-			const html = bench.content.replace(FRAMEWORK_URL_REGEX, scriptUrl);
+			const scriptUrl = `/${pathToUri(framework.path)}/${framework.jsUrl}`;
+			const html = bench.content
+				.replace(FRAMEWORK_URL_REGEX, scriptUrl)
+				.replace(SCRIPT_TYPE_REGEX, framework.jsType);
 
 			const outputDir = repoRoot(framework.path, "benches");
 			await mkdir(outputDir, { recursive: true });

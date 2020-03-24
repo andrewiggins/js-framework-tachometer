@@ -74,7 +74,7 @@ export default {
 	input: path.join(__dirname, "src/index.js"),
 	output: {
 		name: "inferno",
-		format: "iife",
+		format: "es",
 		file: path.join(__dirname, "dist", "index.js"),
 		sourcemap: false
 	},

@@ -42,7 +42,7 @@ async function resolveFrameworkSpec(spec) {
 }
 
 /**
- * @typedef {{ id: string; name: string; versions: string[]; path: string; keyedType: "keyed" | "non-keyed"; fullName: string; }} FrameworkData
+ * @typedef {{ id: string; name: string; versions: string[]; path: string; jsUrl: string; jsType: string; keyedType: "keyed" | "non-keyed"; fullName: string; }} FrameworkData
  * @type {(pkgPath: string) => Promise<FrameworkData>}
  */
 const createFrameworkData = memoize(async pkgPath => {
@@ -80,11 +80,26 @@ const createFrameworkData = memoize(async pkgPath => {
 		);
 	}
 
+	let jsUrl, jsType;
+	if ("module" in pkg) {
+		jsUrl = pkg.module;
+		jsType = "module";
+	} else if ("main" in pkg) {
+		jsUrl = pkg.main;
+		jsType = "text/javascript";
+	} else {
+		throw new Error(
+			`Could not find main field (IIFE format) or module field (ESM format) in package.json: ${pkgPath}`
+		);
+	}
+
 	return {
 		id: pathToUri(relativePath) + "/",
 		name,
 		versions,
 		path: relativePath,
+		jsUrl,
+		jsType,
 		keyedType,
 		fullName: `${name}-v${versions.join("+")}-${keyedType}`
 	};

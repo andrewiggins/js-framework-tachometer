@@ -8,7 +8,7 @@ module.exports = {
 	input: "src/index.js",
 	output: {
 		dir: "dist",
-		format: "iife",
+		format: "es",
 		compact: minify,
 		entryFileNames: `[name].js`,
 		chunkFileNames: `[name]-[hash].js`

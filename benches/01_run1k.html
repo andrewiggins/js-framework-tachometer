@@ -8,7 +8,7 @@
 	</head>
 	<body>
 		<div id="main"></div>
-		<script type="text/javascript" src="{{ FRAMEWORK_INDEX }}"></script>
+		<script type="{{ SCRIPT_TYPE }}" src="{{ FRAMEWORK_INDEX }}"></script>
 		<script type="module">
 			import * as bench from "/bench.js";
 			import { getButton, testElement, afterFrame } from "/benches/util.js";
