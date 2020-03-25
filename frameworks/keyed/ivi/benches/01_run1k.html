@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>create rows</title>
+		<meta name="description" content="creating 1,000 rows" />
+	</head>
+	<body>
+		<div id="main"></div>
+		<script type="module" src="/frameworks/keyed/ivi/dist/index.js"></script>
+		<script type="module">
+			import * as bench from "/bench.js";
+			import { getButton, testElement, afterFrame } from "/benches/util.js";
+
+			const button = getButton("add");
+
+			afterFrame(function() {
+				testElement("tr:nth-child(1000) > td:nth-child(2) > a");
+				bench.stop();
+			});
+
+			bench.start();
+			button.click();
+		</script>
+	</body>
+</html>
