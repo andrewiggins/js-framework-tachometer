@@ -31,16 +31,20 @@ async function build(specs, options) {
 
 	const benches = await getAllBenches();
 
+	let i = 0;
+	const n = pkgPaths.length * 2; // Build bundle + build benchmark html files per framework
+	console.log("Beginning build. Estimated task count:", n);
+
 	const tasks = pkgPaths.map(async pkgPath => {
 		const cwd = path.dirname(pkgPath);
 		const name = path.basename(cwd);
 		const npmOptions = { cwd, debug: options.debug };
 
-		console.log(`${name}: Building bundle... (0/2)`);
+		console.log(`${name}: Building bundle...`);
 		await toCompletion(runNpm(["run", buildTask], npmOptions));
-		console.log(`${name}: Finished bundling (1/2)`);
+		console.log(`${name}: Finished bundling (${++i}/${n})`);
 
-		console.log(`${name}: Building benches... (1/2)`);
+		console.log(`${name}: Building benches...`);
 		const framework = await createFrameworkData(pkgPath);
 
 		const benchTasks = benches.map(async bench => {
@@ -58,7 +62,7 @@ async function build(specs, options) {
 
 		await Promise.all(benchTasks);
 
-		console.log(`${name}: Finished building benches (2/2)`);
+		console.log(`${name}: Finished building benches (${++i}/${n})`);
 	});
 
 	await Promise.all(tasks);

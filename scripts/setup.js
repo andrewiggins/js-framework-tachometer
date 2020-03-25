@@ -20,18 +20,18 @@ async function setup(specs, options) {
 	const pkgPaths = (await Promise.all(specs.map(resolveFrameworkSpec))).flat();
 	console.log("Resolved to:", pkgPaths);
 
+	let i = 0;
+	const n = pkgPaths.length;
+	console.log("Beginning setup. Estimated install tasks:", n);
+
 	const tasks = pkgPaths.map(async pkgPath => {
 		const cwd = path.dirname(pkgPath);
 		const name = path.basename(cwd);
 		const npmOptions = { cwd, debug: options.debug };
 
-		console.log(`${name}: Running npm install... (0/2)`);
+		console.log(`${name}: Running npm install...`);
 		await toCompletion(runNpm(["install", "--quiet"], npmOptions));
-		console.log(`${name}: Finished installing (1/2)`);
-
-		console.log(`${name}: Building bundle... (1/2)`);
-		await toCompletion(runNpm(["run", "build:prod"], npmOptions));
-		console.log(`${name}: Finished building (2/2)`);
+		console.log(`${name}: Finished installing (${++i}/${n})`);
 	});
 
 	return Promise.all(tasks);

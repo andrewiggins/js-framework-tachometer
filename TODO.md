@@ -1,5 +1,5 @@
-- Add general task tracker module (i/n)
 - Build `index.html` at root of repository (or in `frameworks` directory for gh-pages?)
 	- `index.html` should be a file displays list of all benches
 	- Should allow grouping by framework or benchmark
 - `runNpm`: Parse npm output into just what's meaningful
+- If necessary, restrict number of concurrent build/install tasks to number of cores available - 1 (for master process)
