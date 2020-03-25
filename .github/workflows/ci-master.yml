@@ -28,3 +28,4 @@ jobs:
     - run: npm ci
     - run: npm run setup all
     - run: npm run build
+    - run: npm run publish
