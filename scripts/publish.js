@@ -16,9 +16,18 @@ function publish(_, options) {
 		"index.html"
 	];
 
+	let user;
+	if (options.name && options.email) {
+		user = {
+			name: options.name,
+			email: options.email
+		};
+	}
+
 	return ghPublish(repoRoot(), {
 		src,
-		push: !options.debug
+		push: !options.debug,
+		user
 	});
 }
 
