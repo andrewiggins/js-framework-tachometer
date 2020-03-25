@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>JS Framework Tachometer</title>
+		<link
+			href="/node_modules/spectre.css/dist/spectre.min.css"
+			rel="stylesheet"
+		/>
+		<link
+			href="/node_modules/spectre.css/dist/spectre-icons.min.css"
+			rel="stylesheet"
+		/>
+		<style>
+			a:visited {
+				color: #5755d9;
+			}
+
+			.tab-body {
+				display: none;
+			}
+
+			.tab-body.active,
+			.tab-body:target {
+				display: block;
+			}
+
+			details > summary {
+				cursor: pointer;
+			}
+
+			.accordion {
+				transition: none;
+			}
+
+			.accordion[open] {
+				/* transition: box-shadow 0.25s; */
+				border-radius: 0.1rem;
+				box-shadow: 0 0.05rem 0.2rem rgba(48, 55, 66, 0.3);
+			}
+
+			.menu {
+				transform: none;
+				box-shadow: none;
+			}
+
+			.menu-item > details > summary:focus,
+			.menu-item > details > summary:active,
+			.menu-item > details > summary:hover {
+				background: #f1f1fc;
+				color: #5755d9;
+			}
+
+			/* Alternate outline style using box-shadow */
+			/* box-shadow: 0 0 0 0.1rem rgba(87, 85, 217, 0.2); */
+			/* .menu-item > details > summary:focus {
+				outline: 2px solid rgba(87, 85, 217, 0.2);
+				outline-offset: -2px;
+			} */
+
+			#main {
+				display: flex;
+				flex-direction: column;
+				margin: 12px auto;
+				min-height: calc(100vh - 24px);
+				max-width: 840px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="main" class="panel">
+			<div class="panel-header text-center">
+				<h1>JS Framework Tachometer</h1>
+			</div>
+			<nav class="panel-nav">
+				<ul class="tab tab-block">
+					<li class="tab-item">
+						<a href="#frameworks">Frameworks</a>
+					</li>
+					<li class="tab-item"><a href="#benchmarks">Benchmarks</a></li>
+				</ul>
+			</nav>
+			<div class="panel-body">
+				<div id="frameworks" class="tab-body">
+					<ul class="menu">
+						{{~frameworks :framework}}
+						<li class="menu-item">
+							<details class="accordion">
+								<summary class="accordion-header">
+									<i class="icon icon-arrow-right mr-1"></i>
+									{{=framework.fullName}}
+								</summary>
+								<div class="accordion-body">
+									<ul class="menu">
+										{{~benchmarks :benchmark}}
+										<li class="menu-item">
+											<a
+												href="/{{= framework.baseUrl + '/benches/' + benchmark.fileName }}"
+												>{{=benchmark.title}}</a
+											>
+										</li>
+										{{~}}
+									</ul>
+								</div>
+							</details>
+						</li>
+						{{~}}
+					</ul>
+				</div>
+				<div id="benchmarks" class="tab-body">
+					<ul class="menu">
+						{{~benchmarks :benchmark}}
+						<li class="menu-item">
+							<details class="accordion">
+								<summary class="accordion-header">
+									<i class="icon icon-arrow-right mr-1"></i>
+									{{=benchmark.title}}
+								</summary>
+								<div class="accordion-body">
+									<ul class="menu">
+										{{~frameworks :framework}}
+										<li class="menu-item">
+											<a
+												href="/{{= framework.baseUrl + '/benches/' + benchmark.fileName }}"
+												>{{=framework.fullName}}</a
+											>
+										</li>
+										{{~}}
+									</ul>
+								</div>
+							</details>
+						</li>
+						{{~}}
+					</ul>
+				</div>
+			</div>
+			<div class="panel-footer">
+				Built with <span class="text-error">♥</span> by
+				<a href="https://github.com/andrewiggins" target="_blank" rel="noopener"
+					>Andre Wiggins</a
+				>. Styled using
+				<a
+					href="https://picturepan2.github.io/spectre/"
+					target="_blank"
+					rel="noopener"
+					>Spectre.css</a
+				>. Based on
+				<a
+					href="https://github.com/krausest/js-framework-benchmark/"
+					target="_blank"
+					rel="noopener"
+					>js-framework-benchmark</a
+				>.
+			</div>
+		</div>
+		<script type="module">
+			const tabLinks = document.querySelectorAll(".tab-item > a");
+			const tabBodies = document.querySelectorAll(".tab-body");
+			const tabBodyIds = Array.from(tabBodies).map(body => body.id);
+
+			if (location.hash == "" || !tabBodyIds.includes(location.hash.slice(1))) {
+				location.hash = tabBodies[0].id;
+			}
+			document
+				.querySelector(`a[href="${location.hash}"]`)
+				.classList.add("active");
+
+			for (const tabLink of tabLinks) {
+				tabLink.addEventListener("click", event => {
+					tabLinks.forEach(link => link.classList.remove("active"));
+					tabBodies.forEach(body => body.classList.remove("active"));
+
+					tabLink.classList.add("active");
+				});
+			}
+		</script>
+	</body>
+</html>

@@ -42,7 +42,7 @@ async function resolveFrameworkSpec(spec) {
 }
 
 /**
- * @typedef {{ id: string; name: string; versions: string[]; path: string; jsUrl: string; jsType: string; keyedType: "keyed" | "non-keyed"; fullName: string; }} FrameworkData
+ * @typedef {{ id: string; name: string; versions: string[]; path: string; baseUrl: string; jsUrl: string; jsType: string; keyedType: "keyed" | "non-keyed"; fullName: string; }} FrameworkData
  * @type {(pkgPath: string) => Promise<FrameworkData>}
  */
 const createFrameworkData = memoize(async pkgPath => {
@@ -93,11 +93,13 @@ const createFrameworkData = memoize(async pkgPath => {
 		);
 	}
 
+	const baseUrl = pathToUri(relativePath);
 	return {
-		id: pathToUri(relativePath) + "/",
+		id: baseUrl + "/",
 		name,
 		versions,
 		path: relativePath,
+		baseUrl,
 		jsUrl,
 		jsType,
 		keyedType,

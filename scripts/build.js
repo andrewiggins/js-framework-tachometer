@@ -1,5 +1,6 @@
 const path = require("path");
-const { writeFile, mkdir } = require("fs").promises;
+const { readFile, writeFile, mkdir } = require("fs").promises;
+const dot = require("dot");
 const { repoRoot, pathToUri } = require("./lib/paths");
 const {
 	resolveFrameworkSpec,
@@ -63,9 +64,33 @@ async function build(specs, options) {
 		await Promise.all(benchTasks);
 
 		console.log(`${name}: Finished building benches (${++i}/${n})`);
+
+		return framework;
 	});
 
-	await Promise.all(tasks);
+	const frameworks = await Promise.all(tasks);
+
+	await compileIndex(frameworks.sort(), benches.sort());
+}
+
+/** @type {import('dot').TemplateSettings} */
+const templateSettings = {
+	...dot.templateSettings,
+	varname: "frameworks, benchmarks",
+	strip: false
+};
+
+/**
+ * @param {any[]} frameworks
+ * @param {import('./lib/benches').Bench[]} benches
+ */
+async function compileIndex(frameworks, benches) {
+	const templatePath = repoRoot("index.dot.html");
+	const rawTemplate = await readFile(templatePath, "utf-8");
+	const render = dot.template(rawTemplate, templateSettings);
+
+	const html = render(frameworks, benches);
+	await writeFile(templatePath.replace(".dot.html", ".html"), html, "utf-8");
 }
 
 module.exports = {
