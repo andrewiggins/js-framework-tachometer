@@ -7,7 +7,7 @@ const { bench } = require("./bench");
 const { publish } = require("./publish");
 
 /**
- * @typedef {{ debug: boolean; bench: string[]; _?: string[]; name?: string; email?: string; }} CmdLineOptions
+ * @typedef {{ debug: boolean; bench: string[]; _?: string[] }} CmdLineOptions
  */
 async function main() {
 	const pkg = JSON.parse(readFileSync(repoRoot("package.json"), "utf8"));
@@ -52,8 +52,6 @@ async function main() {
 	prog
 		.command("publish")
 		.describe("Publish the latest commit to the gh-pages branch")
-		.option("--name", "The name of the committer doing this publish")
-		.option("--email", "The email of the committer doing this publish")
 		.action(publish);
 
 	// @ts-ignore
