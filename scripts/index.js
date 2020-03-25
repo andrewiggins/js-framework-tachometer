@@ -4,6 +4,7 @@ const { repoRoot } = require("./lib/paths");
 const { setup } = require("./setup");
 const { build } = require("./build");
 const { bench } = require("./bench");
+const { publish } = require("./publish");
 
 /**
  * @typedef {{ debug: boolean; bench: string[]; _?: string[] }} CmdLineOptions
@@ -47,6 +48,11 @@ async function main() {
 			""
 		)
 		.action(bench);
+
+	prog
+		.command("publish")
+		.describe("Publish the latest commit to the gh-pages branch")
+		.action(publish);
 
 	// @ts-ignore
 	const { args, handler } = prog.parse(process.argv, { lazy: true });
