@@ -49,10 +49,11 @@ jobs:
         with:
           name: dist
           path: .
-      - name: List contents and status
+      - run: git status -s
+      - name: Configure local repo
         run: |
-          ls -al .
-          git status -s
+          git config --local user.email "action@github.com"
+          git config --local user.name "${{ github.workflow }} Github Action"
       - name: Commit changes
         run: |
           git add .
