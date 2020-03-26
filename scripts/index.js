@@ -61,8 +61,8 @@ async function main() {
 	let options;
 	let frameworks;
 	if (args.length == 1) {
-		frameworks = [];
 		options = args[0];
+		frameworks = Array.isArray(options._) ? options._ : [];
 	} else if (args.length == 2) {
 		options = args[1];
 

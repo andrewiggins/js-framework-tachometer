@@ -15,7 +15,7 @@ async function setup(specs, options) {
 
 	ensureNpmPathSet();
 
-	console.log("Resolving specified frameworks...");
+	console.log(`Resolving frameworks that match: ${specs.join(", ")}...`);
 	// @ts-ignore
 	const pkgPaths = (await Promise.all(specs.map(resolveFrameworkSpec))).flat();
 	console.log("Resolved to:", pkgPaths);

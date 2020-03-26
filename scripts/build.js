@@ -24,7 +24,7 @@ async function build(specs, options) {
 		specs = ["setup"];
 	}
 
-	console.log("Resolving specified frameworks...");
+	console.log(`Resolving frameworks that match: ${specs.join(", ")}...`);
 	/** @type {string[]} */
 	// @ts-ignore
 	const pkgPaths = (await Promise.all(specs.map(resolveFrameworkSpec))).flat();

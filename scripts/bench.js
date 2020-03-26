@@ -22,7 +22,7 @@ async function bench(specs, options) {
 		benchSpecs = ["all"];
 	}
 
-	console.log("Resolving specified frameworks...");
+	console.log(`Resolving frameworks that match: ${specs.join(", ")}...`);
 
 	/** @type {string[]} */
 	// @ts-ignore
