@@ -38,10 +38,12 @@ jobs:
     name: Publish
     needs: build
     runs-on: ubuntu-latest
+    env:
+      PUBLISH_BRANCH: gh-pages
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: gh-pages
+          ref: ${{ env.PUBLISH_BRANCH }}
       - uses: actions/setup-node@v1
         with:
           node-version: "12.x"
@@ -58,3 +60,5 @@ jobs:
         run: |
           git add .
           git commit -m "Updates from ${{ github.workflow }}#${{ github.run_number }}"
+      - name: Push changes
+        run: git push origin ${{ env.PUBLISH_BRANCH }}
