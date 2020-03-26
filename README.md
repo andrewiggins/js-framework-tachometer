@@ -4,11 +4,24 @@ A comparison of the performance of a few popular javascript frameworks using [po
 
 ## Quick Start
 
+Clone this repository and run the following commands to get setup
+
 ```bash
 npm install
-npm run setup all # Or the names of the frameworks you want to run
-npm run build # Builds all benches for frameworks setup in the previous command
-npm run bench # Will take a while! Runs the benches built in the previous command
+npm run setup all    # Or the names of the frameworks you want to run
+npm run build        # Builds all benches for frameworks setup in the previous command
+```
+
+Run the following command to run all benchmarks for all frameworks that were built in the previous commands
+
+```bash
+npm run bench        # Will take a while! Runs all benches built in the previous command
+```
+
+Start a local file server in the root of this repo to browse the html files the benchmark uses
+
+```bash
+http-server .        # https://npm.im/http-server
 ```
 
 ## Setup
