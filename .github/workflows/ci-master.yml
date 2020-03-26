@@ -48,4 +48,4 @@ jobs:
       - uses: actions/download-artifact@v1
         with:
           name: dist
-      - run: node -e "var fs=require('fs'); console.log(fs.readdirSync(process.cwd()));"
+      - run: ls -l .
