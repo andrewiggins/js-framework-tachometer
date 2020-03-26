@@ -1,4 +1,4 @@
-- Fill in Readme & CONTRIBUTING
+- Add CONTRIBUTING
 - Add ability to create different benchmarks other than js-framework-benchmarks
 - Consider how to configure tachometer differently for different benchmarks (e.g. warmups required)
 - Frameworks to consider:

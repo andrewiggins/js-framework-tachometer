@@ -50,7 +50,10 @@ async function bench(specs, options) {
 		console.log(`${benchId}: Running benchmark...`);
 
 		const htmlFiles = benchmarks.get(benchId);
-		const args = htmlFiles;
+		const args = [
+			...htmlFiles
+			// TODO: add path to tachometer config
+		];
 
 		await toCompletion(runNode(tachBin, args, { debug: options.debug }));
 
