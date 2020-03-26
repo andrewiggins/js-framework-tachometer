@@ -49,4 +49,5 @@ jobs:
         with:
           name: dist
           path: .
-      - run: ls -l .
+      - run: ls -al .
+      - run: git status
