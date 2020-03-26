@@ -58,8 +58,10 @@ jobs:
           git status -s
           CHANGES=$(git status -s)
           if [ "$CHANGES" != "" ]; then
-            echo "Changes detected. Committing and pushing..."
+            echo "Changes detected"
+            echo "Committing..."
             git commit -m "Updates from ${{ github.workflow }}#${{ github.run_number }}"
+            echo "Pushing..."
             git push origin ${{ env.PUBLISH_BRANCH }}
           else
             echo "No changes detected. Not pushing to ${{ env.PUBLISH_BRANCH }}"
