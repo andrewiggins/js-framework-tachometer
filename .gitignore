@@ -14,6 +14,7 @@ frameworks/*/*/benches
 package-lock.json
 
 index.html
+dist
 results
 .vscode/settings.json
 

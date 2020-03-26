@@ -1,3 +1,4 @@
+const cpy = require("cpy");
 const ghPages = require("gh-pages");
 const { repoRoot } = require("./lib/paths");
 
@@ -5,7 +6,12 @@ const { repoRoot } = require("./lib/paths");
  * @param {never} _
  * @param {import('./index').CmdLineOptions} options
  */
-function publish(_, options) {
+async function publish(_, options) {
+	// if (options.clean) {
+	// 	ghPages.clean();
+	// 	return;
+	// }
+
 	const src = [
 		"node_modules/afterframe/dist/*",
 		"node_modules/spectre.css/dist/*",
@@ -16,10 +22,12 @@ function publish(_, options) {
 		"index.html"
 	];
 
-	return ghPublish(repoRoot(), {
-		src,
-		push: !options.debug
-	});
+	return cpy(src, "dist", { cwd: repoRoot(), parents: true });
+
+	// return ghPublish(repoRoot(), {
+	// 	src,
+	// 	push: !options.debug
+	// });
 }
 
 /**
