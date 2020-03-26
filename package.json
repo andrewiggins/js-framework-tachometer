@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/andrewiggins/js-framework-tachometer#readme",
   "lint-staged": {
-    "**/*.{js,jsx,ts,tsx,html}": [
+    "**/*.{js,jsx,ts,tsx,html,yml}": [
       "prettier --write"
     ]
   },
