@@ -49,5 +49,11 @@ jobs:
         with:
           name: dist
           path: .
-      - run: ls -al .
-      - run: git status
+      - name: List contents and status
+        run: |
+          ls -al .
+          git status -s
+      - name: Commit changes
+        run: |
+          git add .
+          git commit -m "Updates from ${{ github.workflow }}#${{ github.run_number }}"
