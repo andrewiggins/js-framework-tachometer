@@ -1,0 +1,24 @@
+{
+  "name": "vanillajs",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Benchmark for Vanilla JS",
+  "module": "dist/index.js",
+  "js-framework-tachometer": {
+    "frameworkVersion": "1.0.0"
+  },
+  "scripts": {
+    "build:dev": "cross-env MINIFY=false rollup -c",
+    "build:prod": "rollup -c"
+  },
+  "author": "Andre Wiggins",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.0",
+    "cross-env": "^7.0.2",
+    "rollup": "^2.1.0",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-terser": "^5.3.0"
+  }
+}
