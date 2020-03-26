@@ -40,25 +40,32 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PUBLISH_BRANCH: gh-pages
+      CHANGES: ""
     steps:
-      - uses: actions/checkout@v2
-        with:
-          ref: ${{ env.PUBLISH_BRANCH }}
       - uses: actions/setup-node@v1
         with:
           node-version: "12.x"
-      - uses: actions/download-artifact@v1
+      - uses: actions/checkout@v2
         with:
-          name: dist
-          path: .
-      - run: git status -s
+          ref: ${{ env.PUBLISH_BRANCH }}
       - name: Configure local repo
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "${{ github.workflow }} Github Action"
+      - uses: actions/download-artifact@v1
+        with:
+          name: dist
+          path: .
+      - name: Determine changes
+        run: |
+          echo $CHANGES
+          export CHANGES=$(git status -s)
+          echo $CHANGES
       - name: Commit changes
+        if: env.CHANGES != ''
         run: |
           git add .
           git commit -m "Updates from ${{ github.workflow }}#${{ github.run_number }}"
       - name: Push changes
+        if: env.CHANGES != ''
         run: git push origin ${{ env.PUBLISH_BRANCH }}
