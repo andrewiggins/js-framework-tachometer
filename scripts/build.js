@@ -30,6 +30,10 @@ async function build(specs, options) {
 	const pkgPaths = (await Promise.all(specs.map(resolveFrameworkSpec))).flat();
 	console.log("Resolved to:", pkgPaths);
 
+	console.log("Compiling index.html...");
+	await compileIndex();
+	console.log("Finished compiling index.html");
+
 	const benches = await getAllBenches();
 
 	let i = 0;
@@ -68,9 +72,7 @@ async function build(specs, options) {
 		return framework;
 	});
 
-	const frameworks = await Promise.all(tasks);
-
-	await compileIndex(frameworks.sort(), benches.sort());
+	return Promise.all(tasks);
 }
 
 /** @type {import('dot').TemplateSettings} */
@@ -80,11 +82,11 @@ const templateSettings = {
 	strip: false
 };
 
-/**
- * @param {any[]} frameworks
- * @param {import('./lib/benches').Bench[]} benches
- */
-async function compileIndex(frameworks, benches) {
+async function compileIndex() {
+	const benches = await getAllBenches();
+	const pkgPaths = await resolveFrameworkSpec("setup");
+	const frameworks = await Promise.all(pkgPaths.map(createFrameworkData));
+
 	const templatePath = repoRoot("index.dot.html");
 	const rawTemplate = await readFile(templatePath, "utf-8");
 	const render = dot.template(rawTemplate, templateSettings);
