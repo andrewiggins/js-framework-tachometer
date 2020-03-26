@@ -58,9 +58,8 @@ jobs:
           path: .
       - name: Determine changes
         run: |
-          echo $CHANGES
+          git status -s
           export CHANGES=$(git status -s)
-          echo $CHANGES
       - name: Commit changes
         if: env.CHANGES != ''
         run: |
