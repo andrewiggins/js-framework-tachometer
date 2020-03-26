@@ -48,4 +48,5 @@ jobs:
       - uses: actions/download-artifact@v1
         with:
           name: dist
+          path: .
       - run: ls -l .
