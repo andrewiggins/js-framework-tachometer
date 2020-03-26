@@ -41,9 +41,6 @@ jobs:
     env:
       PUBLISH_BRANCH: gh-pages
     steps:
-      - uses: actions/setup-node@v1
-        with:
-          node-version: "12.x"
       - uses: actions/checkout@v2
         with:
           ref: ${{ env.PUBLISH_BRANCH }}
@@ -55,15 +52,12 @@ jobs:
         with:
           name: dist
           path: .
-      - name: Determine changes
-        run: |
-          git status -s
-          export CHANGES=$(git status -s)
-      - name: Commit changes
-        if: env.CHANGES != ''
+      - name: Commit and push if changes
         run: |
           git add .
-          git commit -m "Updates from ${{ github.workflow }}#${{ github.run_number }}"
-      - name: Push changes
-        if: env.CHANGES != ''
-        run: git push origin ${{ env.PUBLISH_BRANCH }}
+          git status -s
+          CHANGES=$(git status -s)
+          if [ $CHANGES != "" ]; then
+            git commit -m "Updates from ${{ github.workflow }}#${{ github.run_number }}"
+            git push origin ${{ env.PUBLISH_BRANCH }}
+          fi
