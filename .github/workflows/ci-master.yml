@@ -40,7 +40,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PUBLISH_BRANCH: gh-pages
-      CHANGES: ""
     steps:
       - uses: actions/setup-node@v1
         with:
