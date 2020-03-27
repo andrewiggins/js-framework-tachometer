@@ -13,6 +13,8 @@ frameworks/*/*/benches
 # check them in to source control
 package-lock.json
 
+frameworks/keyed/scratch
+
 index.html
 dist
 results

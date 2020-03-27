@@ -65,3 +65,7 @@ After building the frameworks you want to test (i.e. running `npm run build`), y
 ## Deployment
 
 All pushes to the master branch are automatically deployed to https://js-framework-tachometer.netlify.com. You can use the URLs from that deployment to run tachometer locally: `tach https://js-framework-tachometer.netlify.com/frameworks/keyed/preact/benches/01_run1k.html https://js-framework-tachometer.netlify.com/frameworks/keyed/ivi/benches/01_run1k.html`.
+
+## Scratch Framework
+
+If you want to test changes to a framework or app and compare it against the current checked in version, use the directory `frameworks/keyed/scratch`. Copy the current implementation into `frameworks/keyed/scratch`, make your changes, and run the benchmark comparing `scratch` with the current implementation.

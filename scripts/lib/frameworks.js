@@ -4,7 +4,8 @@ const globby = require("globby");
 const memoize = require("mem");
 const { repoRoot, pathToUri } = require("./paths");
 
-const globbyOpts = { cwd: repoRoot() };
+/** @type {import('globby').GlobbyOptions} */
+const globbyOpts = { cwd: repoRoot(), dot: true, gitignore: false };
 
 /**
  * @param {string} spec
