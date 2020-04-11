@@ -3,40 +3,36 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>replace all rows</title>
-		<meta name="description" content="updating all 1,000 rows" />
+		<title>append rows to large table</title>
+		<meta
+			name="description"
+			content="appending 1,000 to a table of 10,000 rows. 2x CPU slowdown"
+		/>
 	</head>
 	<body>
 		<div id="main"></div>
 		<script type="{{ SCRIPT_TYPE }}" src="{{ FRAMEWORK_INDEX }}"></script>
 		<script type="module">
-			// Tachometer benching lib to start/stop benching
 			import * as bench from "/bench.js";
 			import {
 				getById,
-				testElementText,
+				getRowIdSel,
+				testElement,
 				afterFrameAsync
 			} from "/benches/util.js";
 
-			const elementSelector = "tr:first-child > td:first-child";
-			const button = getById("run");
-
 			async function init() {
-				const WARMUP_COUNT = 5;
-				for (let i = 0; i < WARMUP_COUNT; i++) {
-					button.click();
-
-					await afterFrameAsync();
-					testElementText(elementSelector, (i * 1000 + 1).toFixed());
-				}
+				getById("run").click();
+				await afterFrameAsync();
+				testElement(getRowIdSel(1000));
 			}
 
 			async function run() {
 				bench.start();
-				button.click();
+				getById("add").click();
 
 				await afterFrameAsync();
-				testElementText(elementSelector, "5001");
+				testElement(getRowIdSel(1100));
 				bench.stop();
 			}
 

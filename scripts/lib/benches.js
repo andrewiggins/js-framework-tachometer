@@ -6,7 +6,7 @@ const normalizePath = require("normalize-path");
 const { repoRoot } = require("./paths");
 
 const TITLE_REGEX = /<title>(.+)<\/title>/;
-const DESC_REGEX = /<meta name="description" content="(.+)" \/>/;
+const DESC_REGEX = /<meta\s+name="description"\s+content="(.+)"\s+\/>/;
 
 async function resolveBenchSpec(spec) {
 	if (spec == null || spec == "all") {
