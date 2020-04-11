@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>remove row</title>
+		<meta name="description" content="removing one row. (n warmup runs)." />
+	</head>
+	<body>
+		<div id="main"></div>
+		<script type="module" src="/frameworks/keyed/ivi/dist/index.js"></script>
+		<script type="module">
+			import * as bench from "/bench.js";
+			import {
+				getById,
+				getBySelector,
+				getRowIdSel,
+				testElementText,
+				afterFrameAsync
+			} from "/benches/util.js";
+
+			const getRowRemoveSel = i =>
+				`tbody > tr:nth-child(${i}) > td:nth-child(3) > a`;
+
+			async function init() {
+				getById("run").click();
+				await afterFrameAsync();
+
+				const WARMUP_COUNT = 5;
+				for (let i = 0; i < WARMUP_COUNT; i++) {
+					testElementText(
+						getRowIdSel(WARMUP_COUNT - i + 4),
+						(WARMUP_COUNT - i + 4).toString()
+					);
+					getBySelector(getRowRemoveSel(WARMUP_COUNT - i + 4)).click();
+
+					await afterFrameAsync();
+					testElementText(getRowIdSel(WARMUP_COUNT - i + 4), "10");
+				}
+
+				testElementText(getRowIdSel(5), "10");
+				testElementText(getRowIdSel(4), "4");
+
+				// Click on a row the second time
+				testElementText(getRowIdSel(6), "11");
+				getBySelector(getRowRemoveSel(6)).click();
+				await afterFrameAsync();
+				testElementText(getRowIdSel(6), "12");
+			}
+
+			async function run() {
+				bench.start();
+				getBySelector(getRowRemoveSel(4)).click();
+
+				await afterFrameAsync();
+				testElementText(getRowIdSel(4), "10");
+				bench.stop();
+			}
+
+			init().then(run);
+		</script>
+	</body>
+</html>

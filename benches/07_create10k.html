@@ -3,20 +3,20 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>create rows</title>
-		<meta name="description" content="creating 1,000 rows" />
+		<title>create many rows</title>
+		<meta name="description" content="creating 10,000 rows" />
 	</head>
 	<body>
 		<div id="main"></div>
-		<script type="module" src="/frameworks/keyed/vanillajs/dist/index.js"></script>
+		<script type="{{ SCRIPT_TYPE }}" src="{{ FRAMEWORK_INDEX }}"></script>
 		<script type="module">
 			import * as bench from "/bench.js";
 			import { getById, testElement, afterFrame } from "/benches/util.js";
 
-			const button = getById("add");
+			const button = getById("runlots");
 
 			afterFrame(function() {
-				testElement("tr:nth-child(1000) > td:nth-child(2) > a");
+				testElement("tr:nth-child(10000) > td:nth-child(2) > a");
 				bench.stop();
 			});
 

@@ -11,9 +11,9 @@
 		<script type="module" src="/frameworks/keyed/preact8/dist/index.js"></script>
 		<script type="module">
 			import * as bench from "/bench.js";
-			import { getButton, testElement, afterFrame } from "/benches/util.js";
+			import { getById, testElement, afterFrame } from "/benches/util.js";
 
-			const button = getButton("add");
+			const button = getById("add");
 
 			afterFrame(function() {
 				testElement("tr:nth-child(1000) > td:nth-child(2) > a");
