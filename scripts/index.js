@@ -55,7 +55,12 @@ async function main() {
 		.action(publish);
 
 	// @ts-ignore
-	const { args, handler } = prog.parse(process.argv, { lazy: true });
+	const result = prog.parse(process.argv, { lazy: true });
+	if (!result) {
+		return;
+	}
+
+	const { args, handler } = result;
 
 	/** @type {CmdLineOptions} */
 	let options;
