@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>replace all rows</title>
+		<meta name="description" content="updating all 1,000 rows" />
+	</head>
+	<body>
+		<div id="main"></div>
+		<script type="module" src="/frameworks/keyed/inferno-unoptimized/dist/index.js"></script>
+		<script type="module">
+			// Tachometer benching lib to start/stop benching
+			import * as bench from "/bench.js";
+			import {
+				getById,
+				testElementText,
+				afterFrameAsync
+			} from "/benches/util.js";
+
+			const elementSelector = "tr:first-child > td:first-child";
+			const button = getById("run");
+
+			async function init() {
+				const WARMUP_COUNT = 5;
+				for (let i = 0; i < WARMUP_COUNT; i++) {
+					button.click();
+
+					await afterFrameAsync();
+					testElementText(elementSelector, (i * 1000 + 1).toFixed());
+				}
+			}
+
+			async function run() {
+				bench.start();
+				button.click();
+
+				await afterFrameAsync();
+				testElementText(elementSelector, "5001");
+				bench.stop();
+			}
+
+			init().then(run);
+		</script>
+	</body>
+</html>

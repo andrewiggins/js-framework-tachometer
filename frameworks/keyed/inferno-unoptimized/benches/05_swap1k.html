@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>swap rows</title>
+		<meta
+			name="description"
+			content="swap 2 rows for table with 1,000 rows. (n warmup runs). 4x CPU slowdown."
+		/>
+	</head>
+	<body>
+		<div id="main"></div>
+		<script type="module" src="/frameworks/keyed/inferno-unoptimized/dist/index.js"></script>
+		<script type="module">
+			import * as bench from "/bench.js";
+			import {
+				getById,
+				getText,
+				getRowLinkSel,
+				testElementText,
+				afterFrameAsync
+			} from "/benches/util.js";
+
+			async function init() {
+				getById("run").click();
+				await afterFrameAsync();
+
+				const WARMUP_COUNT = 5;
+				for (let i = 0; i < WARMUP_COUNT; i++) {
+					let expectedText = await getText(getRowLinkSel(2));
+					getById("swaprows").click();
+
+					await afterFrameAsync();
+					testElementText(getRowLinkSel(999), expectedText);
+				}
+			}
+
+			async function run() {
+				bench.start();
+				let expectedText = await getText(getRowLinkSel(2));
+				getById("swaprows").click();
+
+				await afterFrameAsync();
+				testElementText(getRowLinkSel(999), expectedText);
+				bench.stop();
+			}
+
+			init().then(run);
+		</script>
+	</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>select row</title>
+		<meta
+			name="description"
+			content="highlighting a selected row. (n warmup runs). 16x CPU slowdown."
+		/>
+		<style>
+			.danger {
+				color: red;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="main"></div>
+		<script type="module" src="/frameworks/keyed/inferno-unoptimized/dist/index.js"></script>
+		<script type="module">
+			import * as bench from "/bench.js";
+			import {
+				getById,
+				getBySelector,
+				getRowLinkSel,
+				testElementClassContains,
+				afterFrameAsync
+			} from "/benches/util.js";
+
+			async function init() {
+				getById("run").click();
+				await afterFrameAsync();
+
+				const WARMUP_COUNT = 5;
+				for (let i = 0; i < WARMUP_COUNT; i++) {
+					getBySelector(getRowLinkSel(i + 1)).click();
+					await afterFrameAsync();
+				}
+			}
+
+			async function run() {
+				bench.start();
+				getBySelector(getRowLinkSel(2)).click();
+
+				await afterFrameAsync();
+				testElementClassContains("tbody > tr:nth-child(2)", "danger");
+				bench.stop();
+			}
+
+			init().then(run);
+		</script>
+	</body>
+</html>
