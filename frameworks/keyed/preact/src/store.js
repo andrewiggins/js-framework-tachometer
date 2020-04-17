@@ -1,7 +1,76 @@
-"use strict";
-
-function _random(max) {
+function random(max) {
 	return Math.round(Math.random() * 1000) % max;
+}
+
+let rowId = 1;
+const adjectives = [
+	"pretty",
+	"large",
+	"big",
+	"small",
+	"tall",
+	"short",
+	"long",
+	"handsome",
+	"plain",
+	"quaint",
+	"clean",
+	"elegant",
+	"easy",
+	"angry",
+	"crazy",
+	"helpful",
+	"mushy",
+	"odd",
+	"unsightly",
+	"adorable",
+	"important",
+	"inexpensive",
+	"cheap",
+	"expensive",
+	"fancy"
+];
+const colours = [
+	"red",
+	"yellow",
+	"blue",
+	"green",
+	"pink",
+	"brown",
+	"purple",
+	"brown",
+	"white",
+	"black",
+	"orange"
+];
+const nouns = [
+	"table",
+	"chair",
+	"house",
+	"bbq",
+	"desk",
+	"car",
+	"pony",
+	"cookie",
+	"sandwich",
+	"burger",
+	"pizza",
+	"mouse",
+	"keyboard"
+];
+
+function buildData(count, result) {
+	for (let i = 0; i < count; i++) {
+		result.push({
+			id: rowId++,
+			label:
+				adjectives[random(adjectives.length)] +
+				" " +
+				colours[random(colours.length)] +
+				" " +
+				nouns[random(nouns.length)]
+		});
+	}
 }
 
 export class Store {
@@ -10,112 +79,63 @@ export class Store {
 		this.selected = undefined;
 		this.id = 1;
 	}
-	buildData(count = 1000) {
-		var adjectives = [
-			"pretty",
-			"large",
-			"big",
-			"small",
-			"tall",
-			"short",
-			"long",
-			"handsome",
-			"plain",
-			"quaint",
-			"clean",
-			"elegant",
-			"easy",
-			"angry",
-			"crazy",
-			"helpful",
-			"mushy",
-			"odd",
-			"unsightly",
-			"adorable",
-			"important",
-			"inexpensive",
-			"cheap",
-			"expensive",
-			"fancy"
-		];
-		var colours = [
-			"red",
-			"yellow",
-			"blue",
-			"green",
-			"pink",
-			"brown",
-			"purple",
-			"brown",
-			"white",
-			"black",
-			"orange"
-		];
-		var nouns = [
-			"table",
-			"chair",
-			"house",
-			"bbq",
-			"desk",
-			"car",
-			"pony",
-			"cookie",
-			"sandwich",
-			"burger",
-			"pizza",
-			"mouse",
-			"keyboard"
-		];
-		var data = [];
-		for (var i = 0; i < count; i++)
-			data.push({
-				id: this.id++,
-				label:
-					adjectives[_random(adjectives.length)] +
-					" " +
-					colours[_random(colours.length)] +
-					" " +
-					nouns[_random(nouns.length)]
-			});
-		return data;
-	}
-	updateData(mod = 10) {
-		for (let i = 0; i < this.data.length; i += 10) {
-			this.data[i] = Object.assign({}, this.data[i], {
-				label: this.data[i].label + " !!!"
-			});
+
+	updateData() {
+		let data = this.data;
+
+		for (let i = 0; i < data.length; i += 10) {
+			const dataItem = data[i];
+
+			data[i] = {
+				id: dataItem.id,
+				label: dataItem.label + " !!!"
+			};
 		}
 	}
+
 	delete(id) {
-		var idx = this.data.findIndex(d => d.id === id);
-		this.data.splice(idx, 1);
+		const data = this.data;
+		const idx = data.findIndex(d => d.id === id);
+
+		data.splice(idx, 1);
 	}
+
 	run() {
-		this.data = this.buildData();
+		this.data = [];
+		this.add();
 		this.selected = undefined;
 	}
+
 	add() {
-		this.data = this.data.concat(this.buildData(1000));
+		buildData(1000, this.data);
 	}
+
 	update() {
 		this.updateData();
 	}
+
 	select(id) {
 		this.selected = id;
 	}
+
 	runLots() {
-		this.data = this.buildData(10000);
+		const newData = [];
+		buildData(10000, newData);
+		this.data = newData;
 		this.selected = undefined;
 	}
+
 	clear() {
 		this.data = [];
 		this.selected = undefined;
 	}
+
 	swapRows() {
-		if (this.data.length > 998) {
-			var a = this.data[1];
-			this.data[1] = this.data[998];
-			this.data[998] = a;
+		let data = this.data;
+		if (data.length > 998) {
+			const a = data[1];
+			data[1] = data[998];
+			data[998] = a;
 		}
 	}
 }
