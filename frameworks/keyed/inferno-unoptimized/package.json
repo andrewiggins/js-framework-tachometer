@@ -1,0 +1,33 @@
+{
+  "name": "inferno",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Benchmark for inferno framework",
+  "module": "dist/index.js",
+  "js-framework-tachometer": {
+    "frameworkPackage": "inferno"
+  },
+  "author": "Andre Wiggins",
+  "license": "MIT",
+  "scripts": {
+    "build:dev": "cross-env MINIFY=false rollup -c",
+    "build:prod": "rollup -c"
+  },
+  "dependencies": {
+    "inferno": "7.2.1",
+    "inferno-create-element": "7.2.1"
+  },
+  "devDependencies": {
+    "@babel/core": "7.9.0",
+    "@babel/preset-env": "7.9.0",
+    "@babel/preset-react": "7.9.4",
+    "@rollup/plugin-alias": "^3.0.1",
+    "@rollup/plugin-commonjs": "^11.0.2",
+    "@rollup/plugin-replace": "^2.3.1",
+    "@rollup/plugin-node-resolve": "^7.1.1",
+    "cross-env": "^7.0.2",
+    "rollup": "^2.1.0",
+    "rollup-plugin-babel": "4.3.3",
+    "rollup-plugin-terser": "^5.3.0"
+  }
+}
