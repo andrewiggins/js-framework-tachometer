@@ -4,6 +4,87 @@ import { render, createElement, Component } from "preact";
 import { Row } from "./Row";
 import { Store } from "./store";
 
+class Header extends Component {
+	shouldComponentUpdate() {
+		return false;
+	}
+	render(props) {
+		return (
+			<div className="jumbotron">
+				<div className="row">
+					<div className="col-md-6">
+						<h1>preact</h1>
+					</div>
+					<div className="col-md-6">
+						<div className="row">
+							<div className="col-sm-6 smallpad">
+								<button
+									type="button"
+									className="btn btn-primary btn-block"
+									id="run"
+									onClick={props.run}
+								>
+									Create 1,000 rows
+								</button>
+							</div>
+							<div className="col-sm-6 smallpad">
+								<button
+									type="button"
+									className="btn btn-primary btn-block"
+									id="runlots"
+									onClick={props.runLots}
+								>
+									Create 10,000 rows
+								</button>
+							</div>
+							<div className="col-sm-6 smallpad">
+								<button
+									type="button"
+									className="btn btn-primary btn-block"
+									id="add"
+									onClick={props.add}
+								>
+									Append 1,000 rows
+								</button>
+							</div>
+							<div className="col-sm-6 smallpad">
+								<button
+									type="button"
+									className="btn btn-primary btn-block"
+									id="update"
+									onClick={props.update}
+								>
+									Update every 10th row
+								</button>
+							</div>
+							<div className="col-sm-6 smallpad">
+								<button
+									type="button"
+									className="btn btn-primary btn-block"
+									id="clear"
+									onClick={props.clear}
+								>
+									Clear
+								</button>
+							</div>
+							<div className="col-sm-6 smallpad">
+								<button
+									type="button"
+									className="btn btn-primary btn-block"
+									id="swaprows"
+									onClick={props.swapRows}
+								>
+									Swap Rows
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		);
+	}
+}
+
 export class Main extends Component {
 	constructor(props) {
 		super(props);
@@ -67,77 +148,14 @@ export class Main extends Component {
 		});
 		return (
 			<div className="container">
-				<div className="jumbotron">
-					<div className="row">
-						<div className="col-md-6">
-							<h1>preact</h1>
-						</div>
-						<div className="col-md-6">
-							<div className="row">
-								<div className="col-sm-6 smallpad">
-									<button
-										type="button"
-										className="btn btn-primary btn-block"
-										id="run"
-										onClick={this.run}
-									>
-										Create 1,000 rows
-									</button>
-								</div>
-								<div className="col-sm-6 smallpad">
-									<button
-										type="button"
-										className="btn btn-primary btn-block"
-										id="runlots"
-										onClick={this.runLots}
-									>
-										Create 10,000 rows
-									</button>
-								</div>
-								<div className="col-sm-6 smallpad">
-									<button
-										type="button"
-										className="btn btn-primary btn-block"
-										id="add"
-										onClick={this.add}
-									>
-										Append 1,000 rows
-									</button>
-								</div>
-								<div className="col-sm-6 smallpad">
-									<button
-										type="button"
-										className="btn btn-primary btn-block"
-										id="update"
-										onClick={this.update}
-									>
-										Update every 10th row
-									</button>
-								</div>
-								<div className="col-sm-6 smallpad">
-									<button
-										type="button"
-										className="btn btn-primary btn-block"
-										id="clear"
-										onClick={this.clear}
-									>
-										Clear
-									</button>
-								</div>
-								<div className="col-sm-6 smallpad">
-									<button
-										type="button"
-										className="btn btn-primary btn-block"
-										id="swaprows"
-										onClick={this.swapRows}
-									>
-										Swap Rows
-									</button>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+				<Header
+					run={this.run}
+					runLots={this.runLots}
+					add={this.add}
+					update={this.update}
+					clear={this.clear}
+					swapRows={this.swapRows}
+				/>
 				<table className="table table-hover table-striped test-data">
 					<tbody>{rows}</tbody>
 				</table>
