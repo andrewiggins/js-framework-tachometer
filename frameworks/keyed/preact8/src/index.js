@@ -4,6 +4,30 @@ import { render, h, Component } from "preact";
 import { Row } from "./Row";
 import { Store } from "./store";
 
+function createRows(store, deleteFunc, selectFunc) {
+	const rows = [];
+	const data = store.data;
+	const selected = store.selected;
+
+	for (let i = 0; i < data.length; i++) {
+		const d = data[i];
+		const id = d.id;
+
+		rows.push(
+			<Row
+				id={id}
+				key={id}
+				label={d.label}
+				selected={id === selected}
+				onClick={selectFunc}
+				onDelete={deleteFunc}
+			/>
+		);
+	}
+
+	return rows;
+}
+
 class Header extends Component {
 	shouldComponentUpdate() {
 		return false;
@@ -135,17 +159,6 @@ export class Main extends Component {
 		this.setState({ store: this.state.store });
 	}
 	render() {
-		let rows = this.state.store.data.map((d, i) => {
-			return (
-				<Row
-					key={d.id}
-					data={d}
-					onClick={this.select}
-					onDelete={this.delete}
-					styleClass={d.id === this.state.store.selected ? "danger" : ""}
-				></Row>
-			);
-		});
 		return (
 			<div className="container">
 				<Header
@@ -157,7 +170,9 @@ export class Main extends Component {
 					swapRows={this.swapRows}
 				/>
 				<table className="table table-hover table-striped test-data">
-					<tbody>{rows}</tbody>
+					<tbody>
+						{createRows(this.state.store, this.delete, this.select)}
+					</tbody>
 				</table>
 				<span
 					className="preloadicon glyphicon glyphicon-remove"

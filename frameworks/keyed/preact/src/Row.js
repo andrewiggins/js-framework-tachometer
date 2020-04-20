@@ -1,6 +1,6 @@
 "use strict";
 
-import { render, createElement, Component } from "preact";
+import { createElement, Component } from "preact";
 
 export class Row extends Component {
 	constructor(props) {
@@ -8,27 +8,27 @@ export class Row extends Component {
 		this.onDelete = this.onDelete.bind(this);
 		this.onClick = this.onClick.bind(this);
 	}
-	shouldComponentUpdate(nextProps, nextState) {
+	shouldComponentUpdate(nextProps) {
 		return (
-			nextProps.data !== this.props.data ||
-			nextProps.styleClass !== this.props.styleClass
+			nextProps.label !== this.props.label ||
+			nextProps.selected !== this.props.selected
 		);
 	}
 
 	onDelete() {
-		this.props.onDelete(this.props.data.id);
+		this.props.onDelete(this.props.id);
 	}
 	onClick() {
-		this.props.onClick(this.props.data.id);
+		this.props.onClick(this.props.id);
 	}
 
 	render() {
-		let { styleClass, onClick, onDelete, data } = this.props;
+		let { selected, label, id } = this.props;
 		return (
-			<tr className={styleClass}>
-				<td className="col-md-1">{data.id}</td>
+			<tr className={selected ? "danger" : null}>
+				<td className="col-md-1">{id}</td>
 				<td className="col-md-4">
-					<a onClick={this.onClick}>{data.label}</a>
+					<a onClick={this.onClick}>{label}</a>
 				</td>
 				<td className="col-md-1">
 					<a onClick={this.onDelete}>
