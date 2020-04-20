@@ -7,7 +7,8 @@
     "setup": "node ./scripts setup",
     "build": "node ./scripts build",
     "bench": "node ./scripts bench",
-    "publish": "cross-env NODE_DEBUG=gh-pages node ./scripts publish"
+    "publish": "cross-env NODE_DEBUG=gh-pages node ./scripts publish",
+    "start": "http-server ."
   },
   "repository": {
     "type": "git",
@@ -34,6 +35,7 @@
     "cross-env": "^7.0.2",
     "dot": "^1.1.3",
     "globby": "^11.0.0",
+    "http-server": "^0.12.1",
     "husky": "^4.2.3",
     "lint-staged": "^10.0.8",
     "mem": "^6.0.1",
