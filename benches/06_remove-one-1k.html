@@ -16,6 +16,7 @@
 				getBySelector,
 				getRowIdSel,
 				testElementText,
+				afterFrame,
 				afterFrameAsync
 			} from "/benches/util.js";
 
@@ -48,13 +49,14 @@
 				testElementText(getRowIdSel(6), "12");
 			}
 
-			async function run() {
+			function run() {
+				afterFrame(() => {
+					testElementText(getRowIdSel(4), "10");
+					bench.stop();
+				});
+
 				bench.start();
 				getBySelector(getRowRemoveSel(4)).click();
-
-				await afterFrameAsync();
-				testElementText(getRowIdSel(4), "10");
-				bench.stop();
 			}
 
 			init().then(run);
