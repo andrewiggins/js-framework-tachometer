@@ -24,6 +24,7 @@
 				getBySelector,
 				getRowLinkSel,
 				testElementClassContains,
+				afterFrame,
 				afterFrameAsync
 			} from "/benches/util.js";
 
@@ -38,13 +39,14 @@
 				}
 			}
 
-			async function run() {
+			function run() {
+				afterFrame(() => {
+					testElementClassContains("tbody > tr:nth-child(2)", "danger");
+					bench.stop();
+				});
+
 				bench.start();
 				getBySelector(getRowLinkSel(2)).click();
-
-				await afterFrameAsync();
-				testElementClassContains("tbody > tr:nth-child(2)", "danger");
-				bench.stop();
 			}
 
 			init().then(run);

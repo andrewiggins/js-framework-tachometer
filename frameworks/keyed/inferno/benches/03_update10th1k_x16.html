@@ -19,6 +19,7 @@
 				getRowLinkSel,
 				testElement,
 				testElementTextContains,
+				afterFrame,
 				afterFrameAsync
 			} from "/benches/util.js";
 
@@ -48,13 +49,14 @@
 				}
 			}
 
-			async function run() {
+			function run() {
+				afterFrame(() => {
+					testElementTextContains(getRowLinkSel(991), repeat(" !!!", 3 + 1));
+					bench.stop();
+				});
+
 				bench.start();
 				updateButton.click();
-
-				await afterFrameAsync();
-				testElementTextContains(getRowLinkSel(991), repeat(" !!!", 3 + 1));
-				bench.stop();
 			}
 
 			init().then(run);

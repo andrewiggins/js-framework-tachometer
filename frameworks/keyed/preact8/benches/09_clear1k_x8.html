@@ -18,6 +18,7 @@
 				getById,
 				getRowIdSel,
 				testElement,
+				afterFrame,
 				afterFrameAsync
 			} from "/benches/util.js";
 
@@ -27,16 +28,17 @@
 				testElement(getRowIdSel(1000));
 			}
 
-			async function run() {
+			function run() {
+				afterFrame(() => {
+					const element = document.querySelector(getRowIdSel(1));
+					if (element != null) {
+						throw new Error("Test failed. Expected all rows to be cleared.");
+					}
+					bench.stop();
+				});
+
 				bench.start();
 				getById("clear").click();
-
-				await afterFrameAsync();
-				const element = document.querySelector(getRowIdSel(1));
-				if (element != null) {
-					throw new Error("Test failed. Expected all rows to be cleared.");
-				}
-				bench.stop();
 			}
 
 			init().then(run);

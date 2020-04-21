@@ -19,6 +19,7 @@
 				getText,
 				getRowLinkSel,
 				testElementText,
+				afterFrame,
 				afterFrameAsync
 			} from "/benches/util.js";
 
@@ -36,14 +37,15 @@
 				}
 			}
 
-			async function run() {
-				bench.start();
-				let expectedText = await getText(getRowLinkSel(2));
-				getById("swaprows").click();
+			function run() {
+				const expectedText = await getText(getRowLinkSel(2));
+				afterFrame(() => {
+					testElementText(getRowLinkSel(999), expectedText);
+					bench.stop();
+				});
 
-				await afterFrameAsync();
-				testElementText(getRowLinkSel(999), expectedText);
-				bench.stop();
+				bench.start();
+				getById("swaprows").click();
 			}
 
 			init().then(run);

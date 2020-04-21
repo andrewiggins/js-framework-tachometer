@@ -18,6 +18,7 @@
 				getById,
 				getRowIdSel,
 				testElement,
+				afterFrame,
 				afterFrameAsync
 			} from "/benches/util.js";
 
@@ -27,13 +28,14 @@
 				testElement(getRowIdSel(1000));
 			}
 
-			async function run() {
+			function run() {
+				afterFrame(() => {
+					testElement(getRowIdSel(1100));
+					bench.stop();
+				});
+
 				bench.start();
 				getById("add").click();
-
-				await afterFrameAsync();
-				testElement(getRowIdSel(1100));
-				bench.stop();
 			}
 
 			init().then(run);

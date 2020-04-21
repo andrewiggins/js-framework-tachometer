@@ -15,6 +15,7 @@
 			import {
 				getById,
 				testElementText,
+				afterFrame,
 				afterFrameAsync
 			} from "/benches/util.js";
 
@@ -31,13 +32,14 @@
 				}
 			}
 
-			async function run() {
+			function run() {
+				afterFrame(() => {
+					testElementText(elementSelector, "5001");
+					bench.stop();
+				});
+
 				bench.start();
 				button.click();
-
-				await afterFrameAsync();
-				testElementText(elementSelector, "5001");
-				bench.stop();
 			}
 
 			init().then(run);
