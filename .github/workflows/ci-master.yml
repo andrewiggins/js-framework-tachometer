@@ -15,7 +15,7 @@ jobs:
         with:
           node-version: "14.x"
       - name: Cache node modules
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         env:
           cache-name: cache-node-modules
         with:
@@ -29,7 +29,7 @@ jobs:
       - run: npm run setup all
       - run: npm run build
       - run: npm run publish
-      - uses: actions/upload-artifact@v1
+      - uses: actions/upload-artifact@v2
         with:
           name: dist
           path: dist
