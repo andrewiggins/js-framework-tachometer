@@ -34,6 +34,36 @@ jobs:
           name: dist
           path: dist
 
+  bench_01_run1k:
+    name: Bench 01_run1k
+    runs-on: ${{ matrix.os }}
+    needs: build
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "14.x"
+      - name: Run npm ci
+        shell: bash
+        env:
+          # Skip downloading Firefox driver until we bench against it
+          GECKODRIVER_SKIP_DOWNLOAD: "true"
+        run: |
+          [[ "$(uname -o)" == "Msys" ]] && exe="chromedriver.exe" || exe="chromedriver"
+          export CHROMEDRIVER_FILEPATH=$(which $exe)
+          echo $CHROMEDRIVER_FILEPATH
+          npm ci
+        # $env:CHROMEDRIVER_FILEPATH=(Join-Path $env:CHROMEWEBDRIVER chromedriver.exe)
+      - uses: actions/download-artifact@v2
+        with:
+          name: dist
+      - run: node ./scripts bench inferno- --bench 01_run1k
+
   publish:
     name: Publish
     needs: build
