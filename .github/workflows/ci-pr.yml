@@ -48,6 +48,7 @@ jobs:
         with:
           node-version: "14.x"
       - name: Run npm ci
+        shell: pwsh
         env:
           # Skip downloading Firefox driver until we bench against it
           GECKODRIVER_SKIP_DOWNLOAD: "true"
