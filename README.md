@@ -21,7 +21,7 @@ npm run bench        # Will take a while! Runs all benches built in the previous
 Start a local file server in the root of this repo to browse the html files the benchmark uses
 
 ```bash
-http-server .        # https://npm.im/http-server
+npm start
 ```
 
 ## Setup
@@ -60,7 +60,7 @@ All commands support a `--help` which lists all options: `npm run setup -- --hel
 
 ## View benches locally
 
-After building the frameworks you want to test (i.e. running `npm run build`), you can run a static file server in the root of the repo (e.g. [`http-server .`](https://npmjs.com/package/http-server)) to browser the build output bundles and html. Use this local deployment to debug issues with the app or to profile your framework.
+After building the frameworks you want to test (i.e. running `npm run build`), you can run a static file server in the root of the repo (e.g. [`http-server .`](https://npmjs.com/package/http-server)) to browser the build output bundles and html. Use this local deployment to debug issues with the app or to profile your framework. Running `npm start` runs an http file server for you.
 
 ## Deployment
 
