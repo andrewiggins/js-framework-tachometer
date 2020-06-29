@@ -13,13 +13,15 @@ const globbyOpts = { cwd: repoRoot(), dot: true, gitignore: false };
  */
 export async function resolveFrameworkSpec(spec) {
 	if (spec === "setup") {
-		const pgkLockPaths = await globby(
-			["frameworks/*/*/package-lock.json"],
-			globbyOpts
-		);
+		const nodeModulesFolders = await globby(["frameworks/*/*/node_modules"], {
+			onlyDirectories: true,
+			gitignore: false,
+			markDirectories: true,
+			cwd: repoRoot()
+		});
 
-		return pgkLockPaths.map(pkgLockPath =>
-			pkgLockPath.replace("package-lock.json", "package.json")
+		return nodeModulesFolders.map(pkgLockPath =>
+			pkgLockPath.replace("node_modules/", "package.json")
 		);
 	} else if (spec === "built") {
 		const bundles = await globby(["frameworks/*/*/dist/index.js"], globbyOpts);
