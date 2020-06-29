@@ -37,12 +37,20 @@ jobs:
   bench_01_run1k:
     name: Bench 01_run1k
     runs-on: windows-latest
+    needs: build
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
           node-version: "14.x"
-      - run: npm ci
+      - name: Run npm ci
+        env:
+          # Skip downloading Firefox driver until we bench against it
+          GECKODRIVER_SKIP_DOWNLOAD: "true"
+        run: |
+          $env:CHROMEDRIVER_FILEPATH=(Join-Path $env:CHROMEWEBDRIVER chromedriver.exe)
+          npm ci
       - uses: actions/download-artifact@v2
         with:
           name: dist
