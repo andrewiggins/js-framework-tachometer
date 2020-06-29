@@ -36,9 +36,12 @@ jobs:
 
   bench_01_run1k:
     name: Bench 01_run1k
-    runs-on: windows-latest
     needs: build
-    timeout-minutes: 20
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
