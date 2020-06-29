@@ -48,6 +48,8 @@ export async function bench(specs, options) {
 
 		const htmlFiles = benchmarks.get(benchId);
 		const args = [
+			"--browser",
+			"chrome-headless",
 			...htmlFiles
 			// TODO: add path to tachometer config
 		];
