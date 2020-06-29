@@ -1,16 +1,13 @@
-const { repoRoot } = require("./lib/paths");
-const {
-	resolveFrameworkSpec,
-	createFrameworkData
-} = require("./lib/frameworks");
-const { resolveBenchSpec, getFrameworkBenchFiles } = require("./lib/benches");
-const { runNode, toCompletion } = require("./lib/node");
+import { repoRoot } from "./lib/paths.js";
+import { resolveFrameworkSpec, createFrameworkData } from "./lib/frameworks.js";
+import { resolveBenchSpec, getFrameworkBenchFiles } from "./lib/benches.js";
+import { runNode, toCompletion } from "./lib/node.js";
 
 /**
  * @param {string[]} specs The frameworks requested by the user on the command line
  * @param {import('./index').CmdLineOptions} options
  */
-async function bench(specs, options) {
+export async function bench(specs, options) {
 	if (!specs || specs.length == 0) {
 		specs = ["built"];
 	}
@@ -60,7 +57,3 @@ async function bench(specs, options) {
 		console.log(`${benchId}: Finished running benchmark`);
 	}
 }
-
-module.exports = {
-	bench
-};

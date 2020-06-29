@@ -1,12 +1,12 @@
-const path = require("path");
-const { resolveFrameworkSpec } = require("./lib/frameworks");
-const { runNpm, ensureNpmPathSet, toCompletion } = require("./lib/node");
+import * as path from "path";
+import { resolveFrameworkSpec } from "./lib/frameworks.js";
+import { runNpm, ensureNpmPathSet, toCompletion } from "./lib/node.js";
 
 /**
  * @param {string[]} specs The frameworks requested by the user on the command line
  * @param {import('./index').CmdLineOptions} options
  */
-async function setup(specs, options) {
+export async function setup(specs, options) {
 	if (!specs || specs.length == 0) {
 		throw new Error(
 			"Expected argument 'frameworks' to be non-null. Run `node ./scripts --help` for guidance."
@@ -36,7 +36,3 @@ async function setup(specs, options) {
 
 	return Promise.all(tasks);
 }
-
-module.exports = {
-	setup
-};

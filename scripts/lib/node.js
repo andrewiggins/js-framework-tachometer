@@ -1,5 +1,5 @@
-const { spawn } = require("child_process");
-const { repoRoot } = require("./paths");
+import { spawn } from "child_process";
+import { repoRoot } from "./paths.js";
 
 /**
  * @typedef {{ debug?: boolean; cwd?: string; stdio?: import('child_process').StdioOptions; }} NodeOptions
@@ -7,7 +7,7 @@ const { repoRoot } = require("./paths");
  * @param {string[]} args
  * @param {NodeOptions} [options]
  */
-function runNode(path, args, options = {}) {
+export function runNode(path, args, options = {}) {
 	args.unshift(path);
 	if (options.debug) {
 		console.log("$", process.execPath, args.join(" "));
@@ -18,7 +18,7 @@ function runNode(path, args, options = {}) {
 	});
 }
 
-function ensureNpmPathSet() {
+export function ensureNpmPathSet() {
 	if (!process.env.npm_execpath) {
 		throw new Error(
 			"Please execute this task using 'npm run setup' or manually set the 'npm_execpath' environment variable"
@@ -30,7 +30,7 @@ function ensureNpmPathSet() {
  * @param {string[]} args
  * @param {NodeOptions} [options]
  */
-function runNpm(args, options = {}) {
+export function runNpm(args, options = {}) {
 	ensureNpmPathSet();
 	options.stdio = "ignore";
 	return runNode(process.env.npm_execpath, args, options);
@@ -40,7 +40,7 @@ function runNpm(args, options = {}) {
  * @param {import('child_process').ChildProcess} childProcess
  * @returns {Promise<void>}
  */
-function toCompletion(childProcess) {
+export function toCompletion(childProcess) {
 	return new Promise((resolve, reject) => {
 		childProcess.on("error", reject);
 		childProcess.on("exit", (code, signal) => {
@@ -58,10 +58,3 @@ function toCompletion(childProcess) {
 		});
 	});
 }
-
-module.exports = {
-	runNode,
-	runNpm,
-	ensureNpmPathSet,
-	toCompletion
-};

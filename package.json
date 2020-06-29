@@ -1,7 +1,8 @@
 {
   "name": "js-framework-tachometer",
   "private": true,
-  "version": "1.0.0",
+  "version": "2.0.0",
+  "type": "module",
   "description": "A comparison of the perfomance of a few popular javascript frameworks using tachometer",
   "scripts": {
     "setup": "node ./scripts setup",

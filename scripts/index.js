@@ -1,10 +1,10 @@
-const { readFileSync } = require("fs");
-const sade = require("sade");
-const { repoRoot } = require("./lib/paths");
-const { setup } = require("./setup");
-const { build } = require("./build");
-const { bench } = require("./bench");
-const { publish } = require("./publish");
+import { readFileSync } from "fs";
+import sade from "sade";
+import { repoRoot } from "./lib/paths.js";
+import { setup } from "./setup.js";
+import { build } from "./build.js";
+import { bench } from "./bench.js";
+import { publish } from "./publish.js";
 
 /**
  * @typedef {{ debug: boolean; bench: string[]; _?: string[] }} CmdLineOptions

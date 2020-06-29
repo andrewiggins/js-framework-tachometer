@@ -1,14 +1,14 @@
-const path = require("path");
-const { readFile, readdir } = require("fs").promises;
-const memoize = require("mem");
-const globby = require("globby");
-const normalizePath = require("normalize-path");
-const { repoRoot } = require("./paths");
+import * as path from "path";
+import { readFile } from "fs/promises";
+import memoize from "mem";
+import globby from "globby";
+import normalizePath from "normalize-path";
+import { repoRoot } from "./paths.js";
 
 const TITLE_REGEX = /<title>(.+)<\/title>/;
 const DESC_REGEX = /<meta\s+name="description"\s+content="(.+)"\s+\/>/;
 
-async function resolveBenchSpec(spec) {
+export async function resolveBenchSpec(spec) {
 	if (spec == null || spec == "all") {
 		return getAllBenches();
 	} else {
@@ -22,7 +22,7 @@ async function resolveBenchSpec(spec) {
  * @typedef {{ id: string; fileName: string; title: string; description: string; content: string; }} Bench
  * @returns {Promise<Bench[]>}
  */
-const getAllBenches = memoize(async function getAllBenches() {
+export const getAllBenches = memoize(async function getAllBenches() {
 	const benchFiles = await globby("benches/*.html", { cwd: repoRoot() });
 
 	const benches = benchFiles.map(async localPath => {
@@ -60,7 +60,7 @@ const getAllBenches = memoize(async function getAllBenches() {
  * @param {import('./benches').Bench[]} [requestedBenches]
  * @param {boolean} [debug]
  */
-async function getFrameworkBenchFiles(
+export async function getFrameworkBenchFiles(
 	frameworks,
 	requestedBenches,
 	debug = false
@@ -106,9 +106,3 @@ async function getFrameworkBenchFiles(
 
 	return benches;
 }
-
-module.exports = {
-	getAllBenches,
-	resolveBenchSpec,
-	getFrameworkBenchFiles
-};

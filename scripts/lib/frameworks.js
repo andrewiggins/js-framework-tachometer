@@ -1,8 +1,8 @@
-const path = require("path");
-const { readFile } = require("fs").promises;
-const globby = require("globby");
-const memoize = require("mem");
-const { repoRoot, pathToUri } = require("./paths");
+import * as path from "path";
+import { readFile } from "fs/promises";
+import globby from "globby";
+import memoize from "mem";
+import { repoRoot, pathToUri } from "./paths.js";
 
 /** @type {import('globby').GlobbyOptions} */
 const globbyOpts = { cwd: repoRoot(), dot: true, gitignore: false };
@@ -11,7 +11,7 @@ const globbyOpts = { cwd: repoRoot(), dot: true, gitignore: false };
  * @param {string} spec
  * @returns {Promise<string[]>}
  */
-async function resolveFrameworkSpec(spec) {
+export async function resolveFrameworkSpec(spec) {
 	if (spec === "setup") {
 		const pgkLockPaths = await globby(
 			["frameworks/*/*/package-lock.json"],
@@ -46,7 +46,7 @@ async function resolveFrameworkSpec(spec) {
  * @typedef {{ id: string; name: string; versions: string[]; path: string; baseUrl: string; jsUrl: string; jsType: string; keyedType: "keyed" | "non-keyed"; fullName: string; }} FrameworkData
  * @type {(pkgPath: string) => Promise<FrameworkData>}
  */
-const createFrameworkData = memoize(async pkgPath => {
+export const createFrameworkData = memoize(async pkgPath => {
 	const pkg = JSON.parse(await readFile(pkgPath, "utf-8"));
 
 	const relativePath = path.dirname(path.relative(repoRoot(), pkgPath));
@@ -68,11 +68,11 @@ const createFrameworkData = memoize(async pkgPath => {
 	if ("frameworkPackages" in metadata) {
 		const pkgLock = await readPkgLock(pkgPath);
 		const packages = metadata["frameworkPackages"];
-		versions = packages.map(package => pkgLock.dependencies[package].version);
+		versions = packages.map(pkg => pkgLock.dependencies[pkg].version);
 	} else if ("frameworkPackage" in metadata) {
 		const pkgLock = await readPkgLock(pkgPath);
-		const package = metadata["frameworkPackage"];
-		versions = [pkgLock.dependencies[package].version];
+		const pkg = metadata["frameworkPackage"];
+		versions = [pkgLock.dependencies[pkg].version];
 	} else if ("frameworkVersion" in metadata) {
 		versions = [metadata["frameworkVersion"]];
 	} else {
@@ -112,8 +112,3 @@ async function readPkgLock(pkgPath) {
 	const pkgLockPath = pkgPath.replace("package.json", "package-lock.json");
 	return JSON.parse(await readFile(pkgLockPath, "utf-8"));
 }
-
-module.exports = {
-	resolveFrameworkSpec,
-	createFrameworkData
-};

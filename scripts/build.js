@@ -1,13 +1,10 @@
-const path = require("path");
-const { readFile, writeFile, mkdir } = require("fs").promises;
-const dot = require("dot");
-const { repoRoot, pathToUri } = require("./lib/paths");
-const {
-	resolveFrameworkSpec,
-	createFrameworkData
-} = require("./lib/frameworks");
-const { getAllBenches } = require("./lib/benches");
-const { runNpm, ensureNpmPathSet, toCompletion } = require("./lib/node");
+import * as path from "path";
+import { readFile, writeFile, mkdir } from "fs/promises";
+import dot from "dot";
+import { repoRoot, pathToUri } from "./lib/paths.js";
+import { resolveFrameworkSpec, createFrameworkData } from "./lib/frameworks.js";
+import { getAllBenches } from "./lib/benches.js";
+import { runNpm, ensureNpmPathSet, toCompletion } from "./lib/node.js";
 
 const SCRIPT_TYPE_REGEX = /{{ SCRIPT_TYPE }}/g;
 const FRAMEWORK_URL_REGEX = /{{ FRAMEWORK_INDEX }}/g;
@@ -16,7 +13,7 @@ const FRAMEWORK_URL_REGEX = /{{ FRAMEWORK_INDEX }}/g;
  * @param {string[]} specs The frameworks requested by the user on the command line
  * @param {import('./index').CmdLineOptions} options
  */
-async function build(specs, options) {
+export async function build(specs, options) {
 	ensureNpmPathSet();
 	const buildTask = options.debug ? "build:dev" : "build:prod";
 
@@ -94,7 +91,3 @@ async function compileIndex() {
 	const html = render(frameworks, benches);
 	await writeFile(templatePath.replace(".dot.html", ".html"), html, "utf-8");
 }
-
-module.exports = {
-	build
-};
