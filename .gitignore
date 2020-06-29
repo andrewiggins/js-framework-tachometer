@@ -7,12 +7,6 @@
 # We create individual benchmark html files for each framework and store
 # them in the benches file under that framework. Ignore this build output
 frameworks/*/*/benches
-
-# We use the presence of a package-lock.json in framework folders
-# to determine if that framework has been setup/installed so don't
-# check them in to source control
-package-lock.json
-
 frameworks/keyed/scratch
 
 index.html

@@ -1,7 +1,7 @@
-name: CI-master
+name: CI-PR
 
 on:
-  push:
+  pull_request:
     branches:
       - master
 
@@ -63,36 +63,3 @@ jobs:
         with:
           name: dist
       - run: node ./scripts bench inferno- --bench 01_run1k
-
-  publish:
-    name: Publish
-    needs: build
-    runs-on: ubuntu-latest
-    env:
-      PUBLISH_BRANCH: gh-pages
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          ref: ${{ env.PUBLISH_BRANCH }}
-      - name: Configure local repo
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "${{ github.workflow }} Github Action"
-      - uses: actions/download-artifact@v1
-        with:
-          name: dist
-          path: .
-      - name: Commit and push if changes
-        run: |
-          git add .
-          git status -s
-          CHANGES=$(git status -s)
-          if [ "$CHANGES" != "" ]; then
-            echo "Changes detected"
-            echo "Committing..."
-            git commit -m "Updates from ${{ github.workflow }}#${{ github.run_number }}"
-            echo "Pushing..."
-            git push origin ${{ env.PUBLISH_BRANCH }}
-          else
-            echo "No changes detected. Not pushing to ${{ env.PUBLISH_BRANCH }}"
-          fi
