@@ -48,13 +48,15 @@ jobs:
         with:
           node-version: "14.x"
       - name: Run npm ci
-        shell: pwsh
+        shell: bash
         env:
           # Skip downloading Firefox driver until we bench against it
           GECKODRIVER_SKIP_DOWNLOAD: "true"
         run: |
-          $env:CHROMEDRIVER_FILEPATH=(Join-Path $env:CHROMEWEBDRIVER chromedriver.exe)
+          export CHROMEDRIVER_FILEPATH=$(which chromedriver)
+          echo $CHROMEDRIVER_FILEPATH
           npm ci
+        # $env:CHROMEDRIVER_FILEPATH=(Join-Path $env:CHROMEWEBDRIVER chromedriver.exe)
       - uses: actions/download-artifact@v2
         with:
           name: dist
