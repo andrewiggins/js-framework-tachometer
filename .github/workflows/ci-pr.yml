@@ -33,3 +33,17 @@ jobs:
         with:
           name: dist
           path: dist
+
+  bench_01_run1k:
+    name: Bench 01_run1k
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "14.x"
+      - run: npm ci
+      - uses: actions/download-artifact@v2
+        with:
+          name: dist
+      - run: node ./scripts bench inferno- --bench 01_run1k
