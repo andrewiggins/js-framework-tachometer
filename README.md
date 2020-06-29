@@ -1,4 +1,4 @@
-# js-framework-tachometer
+# js-framework-tachometer ![CI-master](https://github.com/andrewiggins/js-framework-tachometer/workflows/CI-master/badge.svg)
 
 A comparison of the performance of a few popular javascript frameworks using [polymer/tachometer](https://github.com/polymer/tachometer).
 
