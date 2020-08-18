@@ -1,6 +1,6 @@
 const commonjsPlugin = require("@rollup/plugin-commonjs");
-const nodeResolvePlugin = require("@rollup/plugin-node-resolve");
-const babelPlugin = require("rollup-plugin-babel");
+const nodeResolvePlugin = require("@rollup/plugin-node-resolve").default;
+const babelPlugin = require("@rollup/plugin-babel").default;
 const path = require("path");
 const replace = require("@rollup/plugin-replace");
 const terser = require("rollup-plugin-terser").terser;
@@ -25,6 +25,7 @@ const plugins = [
 		sourcemap: false
 	}),
 	babelPlugin({
+		babelHelpers: "bundled",
 		exclude: "node_modules/**",
 		sourceMaps: false
 	}),

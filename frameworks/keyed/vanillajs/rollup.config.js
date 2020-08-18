@@ -1,8 +1,9 @@
-// import babel from 'rollup-plugin-babel';
+// import babel from '@rollup/plugin-babel';
 import { terser } from "rollup-plugin-terser";
 
 const plugins = [
 	// babel({
+	//  babelHelpers: "bundled",
 	// 	presets: [["@babel/preset-env", {
 	//     "targets": {
 	//       "ie": "11"
