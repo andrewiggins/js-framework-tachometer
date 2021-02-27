@@ -37,7 +37,7 @@
 				}
 			}
 
-			function run() {
+			async function run() {
 				const expectedText = await getText(getRowLinkSel(2));
 				afterFrame(() => {
 					testElementText(getRowLinkSel(999), expectedText);
