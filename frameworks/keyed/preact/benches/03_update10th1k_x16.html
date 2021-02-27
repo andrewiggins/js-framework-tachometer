@@ -8,20 +8,28 @@
 			name="description"
 			content="updating every 10th row for 1,000 rows (3 warmup runs). 16x CPU slowdown."
 		/>
+		<style>
+			.preloadicon {
+				display: none;
+			}
+			.glyphicon-remove:before {
+				content: "⨯";
+			}
+		</style>
 	</head>
 	<body>
 		<div id="main"></div>
-		<script type="module" src="/frameworks/keyed/preact/dist/index.js"></script>
+		<script type="module" src="../dist/index.js"></script>
 		<script type="module">
-			import * as bench from "/bench.js";
 			import {
 				getById,
 				getRowLinkSel,
 				testElement,
 				testElementTextContains,
 				afterFrame,
-				afterFrameAsync
-			} from "/benches/util.js";
+				afterFrameAsync,
+				measureName
+			} from "../../../util.js";
 
 			const runButton = getById("run");
 			const updateButton = getById("update");
@@ -52,10 +60,11 @@
 			function run() {
 				afterFrame(() => {
 					testElementTextContains(getRowLinkSel(991), repeat(" !!!", 3 + 1));
-					bench.stop();
+					performance.mark("stop");
+					performance.measure(measureName, "start", "stop");
 				});
 
-				bench.start();
+				performance.mark("start");
 				updateButton.click();
 			}
 

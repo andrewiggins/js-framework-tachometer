@@ -5,19 +5,26 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>replace all rows</title>
 		<meta name="description" content="updating all 1,000 rows" />
+		<style>
+			.preloadicon {
+				display: none;
+			}
+			.glyphicon-remove:before {
+				content: "⨯";
+			}
+		</style>
 	</head>
 	<body>
 		<div id="main"></div>
-		<script type="module" src="/frameworks/keyed/inferno-unoptimized/dist/index.js"></script>
+		<script type="module" src="../dist/index.js"></script>
 		<script type="module">
-			// Tachometer benching lib to start/stop benching
-			import * as bench from "/bench.js";
 			import {
 				getById,
 				testElementText,
 				afterFrame,
-				afterFrameAsync
-			} from "/benches/util.js";
+				afterFrameAsync,
+				measureName
+			} from "../../../util.js";
 
 			const elementSelector = "tr:first-child > td:first-child";
 			const button = getById("run");
@@ -35,10 +42,11 @@
 			function run() {
 				afterFrame(() => {
 					testElementText(elementSelector, "5001");
-					bench.stop();
+					performance.mark("stop");
+					performance.measure(measureName, "start", "stop");
 				});
 
-				bench.start();
+				performance.mark("start");
 				button.click();
 			}
 

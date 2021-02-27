@@ -5,22 +5,35 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>create rows</title>
 		<meta name="description" content="creating 1,000 rows" />
+		<style>
+			.preloadicon {
+				display: none;
+			}
+			.glyphicon-remove:before {
+				content: "⨯";
+			}
+		</style>
 	</head>
 	<body>
 		<div id="main"></div>
-		<script type="module" src="/frameworks/keyed/ivi/dist/index.js"></script>
+		<script type="module" src="../dist/index.js"></script>
 		<script type="module">
-			import * as bench from "/bench.js";
-			import { getById, testElement, afterFrame } from "/benches/util.js";
+			import {
+				getById,
+				testElement,
+				afterFrame,
+				measureName
+			} from "../../../util.js";
 
 			const button = getById("add");
 
 			afterFrame(function() {
 				testElement("tr:nth-child(1000) > td:nth-child(2) > a");
-				bench.stop();
+				performance.mark("stop");
+				performance.measure(measureName, "start", "stop");
 			});
 
-			bench.start();
+			performance.mark("start");
 			button.click();
 		</script>
 	</body>

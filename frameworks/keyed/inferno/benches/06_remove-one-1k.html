@@ -5,20 +5,28 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>remove row</title>
 		<meta name="description" content="removing one row. (n warmup runs)." />
+		<style>
+			.preloadicon {
+				display: none;
+			}
+			.glyphicon-remove:before {
+				content: "⨯";
+			}
+		</style>
 	</head>
 	<body>
 		<div id="main"></div>
-		<script type="module" src="/frameworks/keyed/inferno/dist/index.js"></script>
+		<script type="module" src="../dist/index.js"></script>
 		<script type="module">
-			import * as bench from "/bench.js";
 			import {
 				getById,
 				getBySelector,
 				getRowIdSel,
 				testElementText,
 				afterFrame,
-				afterFrameAsync
-			} from "/benches/util.js";
+				afterFrameAsync,
+				measureName
+			} from "../../../util.js";
 
 			const getRowRemoveSel = i =>
 				`tbody > tr:nth-child(${i}) > td:nth-child(3) > a`;
@@ -52,10 +60,11 @@
 			function run() {
 				afterFrame(() => {
 					testElementText(getRowIdSel(4), "10");
-					bench.stop();
+					performance.mark("stop");
+					performance.measure(measureName, "start", "stop");
 				});
 
-				bench.start();
+				performance.mark("start");
 				getBySelector(getRowRemoveSel(4)).click();
 			}
 

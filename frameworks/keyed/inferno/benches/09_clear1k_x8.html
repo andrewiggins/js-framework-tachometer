@@ -8,19 +8,27 @@
 			name="description"
 			content="clearing a table with 1,000 rows. 8x CPU slowdown"
 		/>
+		<style>
+			.preloadicon {
+				display: none;
+			}
+			.glyphicon-remove:before {
+				content: "⨯";
+			}
+		</style>
 	</head>
 	<body>
 		<div id="main"></div>
-		<script type="module" src="/frameworks/keyed/inferno/dist/index.js"></script>
+		<script type="module" src="../dist/index.js"></script>
 		<script type="module">
-			import * as bench from "/bench.js";
 			import {
 				getById,
 				getRowIdSel,
 				testElement,
 				afterFrame,
-				afterFrameAsync
-			} from "/benches/util.js";
+				afterFrameAsync,
+				measureName
+			} from "../../../util.js";
 
 			async function init() {
 				getById("run").click();
@@ -34,10 +42,11 @@
 					if (element != null) {
 						throw new Error("Test failed. Expected all rows to be cleared.");
 					}
-					bench.stop();
+					performance.mark("stop");
+					performance.measure(measureName, "start", "stop");
 				});
 
-				bench.start();
+				performance.mark("start");
 				getById("clear").click();
 			}
 

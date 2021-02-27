@@ -9,6 +9,14 @@
 			content="highlighting a selected row. (n warmup runs). 16x CPU slowdown."
 		/>
 		<style>
+			.preloadicon {
+				display: none;
+			}
+			.glyphicon-remove:before {
+				content: "⨯";
+			}
+		</style>
+		<style>
 			.danger {
 				color: red;
 			}
@@ -16,17 +24,17 @@
 	</head>
 	<body>
 		<div id="main"></div>
-		<script type="module" src="/frameworks/keyed/ivi/dist/index.js"></script>
+		<script type="module" src="../dist/index.js"></script>
 		<script type="module">
-			import * as bench from "/bench.js";
 			import {
 				getById,
 				getBySelector,
 				getRowLinkSel,
 				testElementClassContains,
 				afterFrame,
-				afterFrameAsync
-			} from "/benches/util.js";
+				afterFrameAsync,
+				measureName
+			} from "../../../util.js";
 
 			async function init() {
 				getById("run").click();
@@ -42,10 +50,11 @@
 			function run() {
 				afterFrame(() => {
 					testElementClassContains("tbody > tr:nth-child(2)", "danger");
-					bench.stop();
+					performance.mark("stop");
+					performance.measure(measureName, "start", "stop");
 				});
 
-				bench.start();
+				performance.mark("start");
 				getBySelector(getRowLinkSel(2)).click();
 			}
 

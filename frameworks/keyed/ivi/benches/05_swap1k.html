@@ -8,20 +8,28 @@
 			name="description"
 			content="swap 2 rows for table with 1,000 rows. (n warmup runs). 4x CPU slowdown."
 		/>
+		<style>
+			.preloadicon {
+				display: none;
+			}
+			.glyphicon-remove:before {
+				content: "⨯";
+			}
+		</style>
 	</head>
 	<body>
 		<div id="main"></div>
-		<script type="module" src="/frameworks/keyed/ivi/dist/index.js"></script>
+		<script type="module" src="../dist/index.js"></script>
 		<script type="module">
-			import * as bench from "/bench.js";
 			import {
 				getById,
 				getText,
 				getRowLinkSel,
 				testElementText,
 				afterFrame,
-				afterFrameAsync
-			} from "/benches/util.js";
+				afterFrameAsync,
+				measureName
+			} from "../../../util.js";
 
 			async function init() {
 				getById("run").click();
@@ -41,10 +49,11 @@
 				const expectedText = await getText(getRowLinkSel(2));
 				afterFrame(() => {
 					testElementText(getRowLinkSel(999), expectedText);
-					bench.stop();
+					performance.mark("stop");
+					performance.measure(measureName, "start", "stop");
 				});
 
-				bench.start();
+				performance.mark("start");
 				getById("swaprows").click();
 			}
 
