@@ -43,7 +43,7 @@ async function main() {
 			"Run tachometer on the (optionally) specified frameworks. Defaults to any framework that is properly built. Can specify specific frameworks by using folder name (e.g. 'preact', 'preact/', 'keyed/preact'). Use `all` to setup all frameworks."
 		)
 		.option(
-			"--bench", // TODO: Add `-b` alias once lukeed/sade#39 is resolved
+			"-b --bench",
 			"Which benchmark you want to run. Can be any substring of the bench html file name. Defaults to running all.",
 			""
 		)
