@@ -42,6 +42,7 @@
     "mem": "^6.0.1",
     "normalize-path": "^3.0.0",
     "prettier": "^1.19.1",
+    "rollup": "^2.40.0",
     "sade": "^1.7.4",
     "sirv-cli": "^1.0.2",
     "tachometer": "^0.5.8"
