@@ -33,7 +33,7 @@ export async function resolveFrameworkSpec(spec) {
 		let pkgPaths = await globby(["frameworks/*/*/package.json"], globbyOpts);
 
 		if (spec !== "all") {
-			pkgPaths = pkgPaths.filter(pkgPath => pkgPath.includes(pathToUri(spec)));
+			pkgPaths = pkgPaths.filter(pkgPath => pkgPath.includes(toUrl(spec)));
 
 			if (pkgPaths.length == 0) {
 				throw new Error(`No frameworks matched '${spec}'.`);
