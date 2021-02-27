@@ -2,7 +2,7 @@ import * as path from "path";
 import { readFile } from "fs/promises";
 import globby from "globby";
 import memoize from "mem";
-import { repoRoot, pathToUri } from "./paths.js";
+import { repoRoot, toUrl } from "./paths.js";
 
 /** @type {import('globby').GlobbyOptions} */
 const globbyOpts = { cwd: repoRoot(), dot: true, gitignore: false };
@@ -96,7 +96,7 @@ export const createFrameworkData = memoize(async pkgPath => {
 		);
 	}
 
-	const baseUrl = pathToUri(relativePath);
+	const baseUrl = toUrl(relativePath);
 	return {
 		id: baseUrl + "/",
 		name,

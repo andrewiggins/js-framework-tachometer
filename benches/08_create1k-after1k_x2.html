@@ -13,14 +13,14 @@
 		<div id="main"></div>
 		<script type="{{ SCRIPT_TYPE }}" src="{{ FRAMEWORK_INDEX }}"></script>
 		<script type="module">
-			import * as bench from "/bench.js";
 			import {
 				getById,
 				getRowIdSel,
 				testElement,
 				afterFrame,
-				afterFrameAsync
-			} from "/benches/util.js";
+				afterFrameAsync,
+				measureName
+			} from "{{ UTIL_URL }}";
 
 			async function init() {
 				getById("run").click();
@@ -31,10 +31,11 @@
 			function run() {
 				afterFrame(() => {
 					testElement(getRowIdSel(1100));
-					bench.stop();
+					performance.mark("stop");
+					performance.measure(measureName, "start", "stop");
 				});
 
-				bench.start();
+				performance.mark("start");
 				getById("add").click();
 			}
 

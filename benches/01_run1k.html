@@ -10,17 +10,22 @@
 		<div id="main"></div>
 		<script type="{{ SCRIPT_TYPE }}" src="{{ FRAMEWORK_INDEX }}"></script>
 		<script type="module">
-			import * as bench from "/bench.js";
-			import { getById, testElement, afterFrame } from "/benches/util.js";
+			import {
+				getById,
+				testElement,
+				afterFrame,
+				measureName
+			} from "{{ UTIL_URL }}";
 
 			const button = getById("add");
 
 			afterFrame(function() {
 				testElement("tr:nth-child(1000) > td:nth-child(2) > a");
-				bench.stop();
+				performance.mark("stop");
+				performance.measure(measureName, "start", "stop");
 			});
 
-			bench.start();
+			performance.mark("start");
 			button.click();
 		</script>
 	</body>

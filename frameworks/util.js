@@ -2,6 +2,8 @@ import afterFrame from "../node_modules/afterframe/dist/afterframe.module.js";
 
 export { afterFrame };
 
+export const measureName = "duration";
+
 /**
  * @extends {Console}
  */
@@ -130,6 +132,16 @@ export function afterFrameAsync() {
 	}
 
 	return promise;
+}
+
+export function measureMemory() {
+	if ("gc" in window && "memory" in performance) {
+		// Report results in MBs
+		window.gc();
+		window.usedJSHeapSize = performance.memory.usedJSHeapSize / 1e6;
+	} else {
+		window.usedJSHeapSize = 0;
+	}
 }
 
 export function getById(id) {

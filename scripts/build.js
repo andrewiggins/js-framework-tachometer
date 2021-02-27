@@ -1,13 +1,14 @@
 import * as path from "path";
 import { readFile, writeFile, mkdir } from "fs/promises";
 import dot from "dot";
-import { repoRoot, pathToUri } from "./lib/paths.js";
+import { repoRoot } from "./lib/paths.js";
 import { resolveFrameworkSpec, createFrameworkData } from "./lib/frameworks.js";
 import { getAllBenches } from "./lib/benches.js";
 import { runNpm, ensureNpmPathSet, toCompletion } from "./lib/node.js";
 
 const SCRIPT_TYPE_REGEX = /{{ SCRIPT_TYPE }}/g;
 const FRAMEWORK_URL_REGEX = /{{ FRAMEWORK_INDEX }}/g;
+const UTIL_URL = /{{ UTIL_URL }}/g;
 
 /**
  * @param {string[]} specs The frameworks requested by the user on the command line
@@ -50,10 +51,10 @@ export async function build(specs, options) {
 		const framework = await createFrameworkData(pkgPath);
 
 		const benchTasks = benches.map(async bench => {
-			const scriptUrl = `/${pathToUri(framework.path)}/${framework.jsUrl}`;
 			const html = bench.content
-				.replace(FRAMEWORK_URL_REGEX, scriptUrl)
-				.replace(SCRIPT_TYPE_REGEX, framework.jsType);
+				.replace(FRAMEWORK_URL_REGEX, "../" + framework.jsUrl)
+				.replace(SCRIPT_TYPE_REGEX, framework.jsType)
+				.replace(UTIL_URL, "../../../util.js");
 
 			const outputDir = repoRoot(framework.path, "benches");
 			await mkdir(outputDir, { recursive: true });

@@ -48,6 +48,11 @@ async function main() {
 			""
 		)
 		.option(
+			"--browser",
+			"Which browsers to launch in automatic mode, comma-delimited (chrome, chrome-headless, firefox, firefox-headless, safari, edge, ie)",
+			"chrome-headless"
+		)
+		.option(
 			"-n --sample-size",
 			"Minimum number of times to run each framework per benchmark",
 			50
@@ -61,6 +66,11 @@ async function main() {
 			"-h --horizon",
 			'The degrees of difference to try and resolve when auto-sampling ("N%" or "Nms", comma-delimited)',
 			"10%"
+		)
+		.option(
+			"--trace",
+			"Enable perf tracing for browsers that support it",
+			false
 		)
 		.action(bench);
 

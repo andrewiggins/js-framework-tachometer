@@ -11,8 +11,6 @@ export async function publish(_, options) {
 		"node_modules/spectre.css/dist/*",
 		"frameworks/*/*/dist/**/*",
 		"frameworks/*/*/benches/**/*",
-		"benches/**/*",
-		"bench.js",
 		"index.html"
 	];
 
