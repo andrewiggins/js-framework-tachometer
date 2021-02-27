@@ -4,8 +4,12 @@ import { resolveBenchSpec, getFrameworkBenchFiles } from "./lib/benches.js";
 import { runNode, toCompletion } from "./lib/node.js";
 
 /**
+ * @typedef BenchOptions
+ * @property {number} n The number of samples per framework to take
+ * @property {number} timeout How long (in minutes) to attempt to reach the Tachometer horizon
+ *
  * @param {string[]} specs The frameworks requested by the user on the command line
- * @param {import('./index').CmdLineOptions} options
+ * @param {import('./index').CmdLineOptions & BenchOptions} options
  */
 export async function bench(specs, options) {
 	if (!specs || specs.length == 0) {
@@ -50,6 +54,10 @@ export async function bench(specs, options) {
 		const args = [
 			"--browser",
 			"chrome-headless",
+			"--sample-size",
+			options.n.toFixed(0),
+			"--timeout",
+			options.timeout.toFixed(2),
 			...htmlFiles
 			// TODO: add path to tachometer config
 		];

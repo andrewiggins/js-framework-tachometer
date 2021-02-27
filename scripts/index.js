@@ -47,6 +47,21 @@ async function main() {
 			"Which benchmark you want to run. Can be any substring of the bench html file name. Defaults to running all.",
 			""
 		)
+		.option(
+			"-n --sample-size",
+			"Minimum number of times to run each framework per benchmark",
+			50
+		)
+		.option(
+			"-t --timeout",
+			"The maximum number of minutes to spend auto-sampling",
+			3
+		)
+		.option(
+			"-h --horizon",
+			'The degrees of difference to try and resolve when auto-sampling ("N%" or "Nms", comma-delimited)',
+			"10%"
+		)
 		.action(bench);
 
 	prog

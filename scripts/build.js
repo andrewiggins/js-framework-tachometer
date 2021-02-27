@@ -11,11 +11,11 @@ const FRAMEWORK_URL_REGEX = /{{ FRAMEWORK_INDEX }}/g;
 
 /**
  * @param {string[]} specs The frameworks requested by the user on the command line
- * @param {import('./index').CmdLineOptions} options
+ * @param {import('./index').CmdLineOptions & { dev: boolean; }} options
  */
 export async function build(specs, options) {
 	ensureNpmPathSet();
-	const buildTask = options.debug ? "build:dev" : "build:prod";
+	const buildTask = options.debug || options.dev ? "build:dev" : "build:prod";
 
 	if (!specs || specs.length == 0) {
 		specs = ["setup"];
