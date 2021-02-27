@@ -14,8 +14,8 @@
     "build:prod": "rollup -c"
   },
   "dependencies": {
-    "ivi-html": "0.27.0",
-    "ivi": "0.27.1"
+    "ivi": "0.27.1",
+    "ivi-html": "0.27.0"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "9.0.0",
