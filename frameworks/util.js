@@ -1,8 +1,6 @@
-import afterFrame from "../node_modules/afterframe/dist/afterframe.module.js";
+var e=[],n=new MessageChannel;function o(){n.port2.postMessage(void 0);}n.port1.onmessage=function(){var n=e;e=[];for(var o=performance.now(),a=0;a<n.length;a++)n[a](o);};function afterFrame(n){1===e.push(n)&&requestAnimationFrame(o);}
 
-export { afterFrame };
-
-export const measureName = "duration";
+const measureName = "duration";
 
 /**
  * @extends {Console}
@@ -96,7 +94,7 @@ function serialize(obj) {
  * @param {T} obj
  * @param {keyof T} method
  */
-export function logCall(obj, method) {
+function logCall(obj, method) {
 	let old = obj[method];
 	obj[method] = function(...args) {
 		let c = "";
@@ -121,7 +119,7 @@ export function logCall(obj, method) {
 }
 
 let promise = null;
-export function afterFrameAsync() {
+function afterFrameAsync() {
 	if (promise === null) {
 		promise = new Promise(resolve =>
 			afterFrame(time => {
@@ -134,7 +132,7 @@ export function afterFrameAsync() {
 	return promise;
 }
 
-export function measureMemory() {
+function measureMemory() {
 	if ("gc" in window && "memory" in performance) {
 		// Report results in MBs
 		window.gc();
@@ -144,7 +142,7 @@ export function measureMemory() {
 	}
 }
 
-export function getById(id) {
+function getById(id) {
 	const button = document.getElementById(id);
 	if (button == null) {
 		throw new Error(`Could not element with id: '${id}'`);
@@ -157,7 +155,7 @@ export function getById(id) {
  * @param {string} selector
  * @returns {Element}
  */
-export function getBySelector(selector) {
+function getBySelector(selector) {
 	const element = document.querySelector(selector);
 	if (element == null) {
 		throw new Error(`Could not find element matching selector: ${selector}`);
@@ -166,20 +164,20 @@ export function getBySelector(selector) {
 	return element;
 }
 
-export function getText(selector) {
+function getText(selector) {
 	const element = getBySelector(selector);
 	return element.textContent;
 }
 
-export function getRowIdSel(index) {
+function getRowIdSel(index) {
 	return `tbody > tr:nth-child(${index}) > td:first-child`;
 }
 
-export function getRowLinkSel(index) {
+function getRowLinkSel(index) {
 	return `tbody > tr:nth-child(${index}) > td:nth-child(2) > a`;
 }
 
-export function testElement(selector) {
+function testElement(selector) {
 	const testElement = document.querySelector(selector);
 	if (testElement == null) {
 		throw new Error(
@@ -188,7 +186,7 @@ export function testElement(selector) {
 	}
 }
 
-export function testElementText(selector, expectedText) {
+function testElementText(selector, expectedText) {
 	const actualText = getText(selector);
 	if (actualText !== expectedText) {
 		throw new Error(
@@ -197,7 +195,7 @@ export function testElementText(selector, expectedText) {
 	}
 }
 
-export function testElementTextContains(selector, expectedText) {
+function testElementTextContains(selector, expectedText) {
 	const elm = getBySelector(selector);
 	if (!elm.textContent.includes(expectedText)) {
 		throw new Error(
@@ -206,7 +204,7 @@ export function testElementTextContains(selector, expectedText) {
 	}
 }
 
-export function testElementClassContains(selector, expectedClass) {
+function testElementClassContains(selector, expectedClass) {
 	/** @type {HTMLElement} */
 	const elm = getBySelector(selector);
 	if (!elm.classList.contains(expectedClass)) {
@@ -215,3 +213,5 @@ export function testElementClassContains(selector, expectedClass) {
 		);
 	}
 }
+
+export { afterFrame, afterFrameAsync, getById, getBySelector, getRowIdSel, getRowLinkSel, getText, logCall, measureMemory, measureName, testElement, testElementClassContains, testElementText, testElementTextContains };
