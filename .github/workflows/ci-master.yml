@@ -49,15 +49,15 @@ jobs:
           echo GITHUB_HEAD_REF: $GITHUB_HEAD_REF
           echo GITHUB_BASE_REF: $GITHUB_BASE_REF
 
-  bench_01_run1k:
-    name: Bench 01_run1k
+  benchmarks:
+    name: Benchmarks
     runs-on: ${{ matrix.os }}
     needs: build
     strategy:
       fail-fast: false
       matrix:
         os: [windows-latest, ubuntu-latest]
-    timeout-minutes: 5
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
@@ -65,19 +65,16 @@ jobs:
           node-version: "14.x"
       - name: Run npm ci
         shell: bash
-        env:
-          # Skip downloading Firefox driver until we bench against it
-          GECKODRIVER_SKIP_DOWNLOAD: "true"
         run: |
           [[ "$(uname -o)" == "Msys" ]] && exe="chromedriver.exe" || exe="chromedriver"
           export CHROMEDRIVER_FILEPATH=$(which $exe)
           echo $CHROMEDRIVER_FILEPATH
           npm ci
-        # $env:CHROMEDRIVER_FILEPATH=(Join-Path $env:CHROMEWEBDRIVER chromedriver.exe)
       - uses: actions/download-artifact@v2
         with:
           name: dist
-      - run: node ./scripts bench inferno- --bench 01_run1k
+      # Quickly run each framework on each benchmark to ensure they execute
+      - run: node ./scripts bench -n 2 -t 0
 
   publish:
     name: Publish
