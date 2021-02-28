@@ -1,5 +1,6 @@
 import * as path from "path";
 import { readFile, writeFile, mkdir } from "fs/promises";
+import cpy from "cpy";
 import dot from "dot";
 import { repoRoot } from "./lib/paths.js";
 import { resolveFrameworkSpec, createFrameworkData } from "./lib/frameworks.js";
@@ -30,6 +31,7 @@ export async function build(specs, options) {
 
 	console.log("Compiling index.html...");
 	await compileIndex();
+	await copyStyles();
 	console.log("Finished compiling index.html");
 
 	const benches = await getAllBenches();
@@ -91,4 +93,14 @@ async function compileIndex() {
 
 	const html = render(frameworks, benches);
 	await writeFile(templatePath.replace(".dot.html", ".html"), html, "utf-8");
+}
+
+async function copyStyles() {
+	const spectreGlobs = ["node_modules/spectre.css/dist/*"];
+	await Promise.all([
+		// For local server
+		cpy(spectreGlobs, "dist/styles", { cwd: repoRoot() }),
+		// For gh-pages
+		cpy(spectreGlobs, "dist/dist/styles", { cwd: repoRoot() })
+	]);
 }

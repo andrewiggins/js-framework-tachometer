@@ -8,8 +8,6 @@ import { repoRoot } from "./lib/paths.js";
  */
 export async function publish(_, options) {
 	const src = [
-		"node_modules/afterframe/dist/*",
-		"node_modules/spectre.css/dist/*",
 		"frameworks/*/*/dist/**/*",
 		"frameworks/*/*/benches/**/*",
 		"index.html"
