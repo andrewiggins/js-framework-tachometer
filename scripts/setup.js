@@ -24,7 +24,7 @@ export async function setup(specs, options) {
 	const n = pkgPaths.length;
 	console.log("Beginning setup. Estimated install tasks:", n);
 
-	const tasks = pkgPaths.map(async pkgPath => {
+	const tasks = pkgPaths.map(async (pkgPath) => {
 		const cwd = path.dirname(pkgPath);
 		const name = path.basename(cwd);
 		const npmOptions = { cwd, debug: options.debug };

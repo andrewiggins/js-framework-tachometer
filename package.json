@@ -39,16 +39,16 @@
     "globby": "^11.0.0",
     "husky": "^4.2.3",
     "lint-staged": "^10.0.8",
-    "mem": "^6.0.1",
+    "mem": "^8.0.0",
     "normalize-path": "^3.0.0",
-    "prettier": "^1.19.1",
+    "prettier": "^2.2.1",
     "rollup": "^2.40.0",
     "sade": "^1.7.4",
-    "sirv-cli": "^1.0.2",
+    "sirv-cli": "^1.0.11",
     "tachometer": "^0.5.8"
   },
   "dependencies": {
     "afterframe": "^1.0.1",
-    "spectre.css": "^0.5.8"
+    "spectre.css": "^0.5.9"
   }
 }

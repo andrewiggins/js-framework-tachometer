@@ -25,10 +25,10 @@
 				testElementText,
 				afterFrame,
 				afterFrameAsync,
-				measureName
+				measureName,
 			} from "{{ UTIL_URL }}";
 
-			const getRowRemoveSel = i =>
+			const getRowRemoveSel = (i) =>
 				`tbody > tr:nth-child(${i}) > td:nth-child(3) > a`;
 
 			async function init() {

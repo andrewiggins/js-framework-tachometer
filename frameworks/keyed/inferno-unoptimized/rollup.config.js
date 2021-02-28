@@ -15,31 +15,31 @@ const extensions = [".js", ".jsx"];
 const plugins = [
 	nodeResolvePlugin({
 		preferBuiltins: false,
-		extensions: extensions
+		extensions: extensions,
 	}),
 	replace({
 		// "process.env.NODE_ENV": isProduction
 		// 	? JSON.stringify("production")
 		// 	: JSON.stringify("development"),
 		"process.env.NODE_ENV": JSON.stringify("production"),
-		sourcemap: false
+		sourcemap: false,
 	}),
 	babelPlugin({
 		babelHelpers: "bundled",
 		exclude: "node_modules/**",
-		sourceMaps: false
+		sourceMaps: false,
 	}),
 	commonjsPlugin({
 		sourceMap: false,
-		extensions: extensions
-	})
+		extensions: extensions,
+	}),
 ];
 
 if (isProduction) {
 	plugins.push(
 		terser({
 			parse: {
-				ecma: 8
+				ecma: 8,
 			},
 			compress: {
 				ecma: 5,
@@ -47,14 +47,14 @@ if (isProduction) {
 				if_return: false,
 				reduce_funcs: false,
 				passes: 5,
-				comparisons: false
+				comparisons: false,
 			},
 			output: {
 				ecma: 5,
-				comments: false
+				comments: false,
 			},
 			toplevel: true,
-			module: true
+			module: true,
 		})
 	);
 }
@@ -68,7 +68,7 @@ plugins.unshift(
 		inferno:
 			__dirname +
 			"/node_modules/inferno/dist/" +
-			(isProduction ? "index.esm.js" : "index.dev.esm.js")
+			(isProduction ? "index.esm.js" : "index.dev.esm.js"),
 	})
 );
 
@@ -78,7 +78,7 @@ export default {
 		name: "inferno",
 		format: "es",
 		file: path.join(__dirname, "dist", "index.js"),
-		sourcemap: false
+		sourcemap: false,
 	},
-	plugins: plugins
+	plugins: plugins,
 };

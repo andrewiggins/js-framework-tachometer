@@ -40,7 +40,7 @@ export async function build(specs, options) {
 	const n = pkgPaths.length * 2; // Build bundle + build benchmark html files per framework
 	console.log("Beginning build. Estimated task count:", n);
 
-	const tasks = pkgPaths.map(async pkgPath => {
+	const tasks = pkgPaths.map(async (pkgPath) => {
 		const cwd = path.dirname(pkgPath);
 		const name = path.basename(cwd);
 		const npmOptions = { cwd, debug: options.debug };
@@ -52,7 +52,7 @@ export async function build(specs, options) {
 		console.log(`${name}: Building benches...`);
 		const framework = await createFrameworkData(pkgPath);
 
-		const benchTasks = benches.map(async bench => {
+		const benchTasks = benches.map(async (bench) => {
 			const html = bench.content
 				.replace(FRAMEWORK_URL_REGEX, "../" + framework.jsUrl)
 				.replace(SCRIPT_TYPE_REGEX, framework.jsType)
@@ -79,7 +79,7 @@ export async function build(specs, options) {
 const templateSettings = {
 	...dot.templateSettings,
 	varname: "frameworks, benchmarks, builtBy",
-	strip: false
+	strip: false,
 };
 
 async function compileIndex() {
@@ -107,6 +107,6 @@ async function copyStyles() {
 		// For local server
 		cpy(spectreGlobs, "dist/styles", { cwd: repoRoot() }),
 		// For gh-pages
-		cpy(spectreGlobs, "dist/dist/styles", { cwd: repoRoot() })
+		cpy(spectreGlobs, "dist/dist/styles", { cwd: repoRoot() }),
 	]);
 }

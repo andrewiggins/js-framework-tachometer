@@ -115,7 +115,7 @@ async function main() {
 	return handler(frameworks, options);
 }
 
-main().catch(error => {
+main().catch((error) => {
 	console.error(error);
 	process.exit(1);
 });

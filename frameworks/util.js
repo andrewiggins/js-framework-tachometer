@@ -98,7 +98,7 @@ function serialize(obj) {
  */
 export function logCall(obj, method) {
 	let old = obj[method];
-	obj[method] = function(...args) {
+	obj[method] = function (...args) {
 		let c = "";
 		for (let i = 0; i < args.length; i++) {
 			if (c) c += ", ";
@@ -123,8 +123,8 @@ export function logCall(obj, method) {
 let promise = null;
 export function afterFrameAsync() {
 	if (promise === null) {
-		promise = new Promise(resolve =>
-			afterFrame(time => {
+		promise = new Promise((resolve) =>
+			afterFrame((time) => {
 				promise = null;
 				resolve(time);
 			})

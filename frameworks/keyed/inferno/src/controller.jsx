@@ -29,7 +29,7 @@ Row.defaultHooks = {
 			nextProps.label !== lastProps.label ||
 			nextProps.selected !== lastProps.selected
 		);
-	}
+	},
 };
 
 function createRows(store, deleteFunc, selectFunc) {
@@ -135,7 +135,7 @@ function Header({ run, runLots, add, update, clear, swapRows }) {
 Header.defaultHooks = {
 	onComponentShouldUpdate() {
 		return false;
-	}
+	},
 };
 
 export class Controller extends Component {

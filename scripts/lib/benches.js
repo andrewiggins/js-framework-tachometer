@@ -13,7 +13,7 @@ export async function resolveBenchSpec(spec) {
 		return getAllBenches();
 	} else {
 		const benchmarks = await getAllBenches();
-		const matches = benchmarks.filter(b => b.id.includes(spec));
+		const matches = benchmarks.filter((b) => b.id.includes(spec));
 		return matches;
 	}
 }
@@ -25,7 +25,7 @@ export async function resolveBenchSpec(spec) {
 export const getAllBenches = memoize(async function getAllBenches() {
 	const benchFiles = await globby("benches/*.html", { cwd: repoRoot() });
 
-	const benches = benchFiles.map(async localPath => {
+	const benches = benchFiles.map(async (localPath) => {
 		const fullPath = repoRoot(localPath);
 		const fileName = path.basename(fullPath);
 		const content = await readFile(fullPath, "utf-8");
@@ -48,7 +48,7 @@ export const getAllBenches = memoize(async function getAllBenches() {
 			fileName,
 			title: titleMatch[1],
 			description: descMatch[1],
-			content
+			content,
 		};
 	});
 
@@ -70,7 +70,7 @@ export async function getFrameworkBenchFiles(
 		if (requestedBenches.length == 1) {
 			benchGlob = `/benches/${requestedBenches[0].id}.html`;
 		} else {
-			const fileNames = requestedBenches.map(b => b.id).join(",");
+			const fileNames = requestedBenches.map((b) => b.id).join(",");
 			benchGlob = `/benches/{${fileNames}}.html`;
 		}
 	} else {
@@ -81,7 +81,7 @@ export async function getFrameworkBenchFiles(
 	if (frameworks == null) {
 		globs = ["frameworks/*/*/benches/*.html"];
 	} else {
-		globs = frameworks.map(f => normalizePath(path.join(f.path, benchGlob)));
+		globs = frameworks.map((f) => normalizePath(path.join(f.path, benchGlob)));
 	}
 
 	if (debug) {
@@ -89,7 +89,7 @@ export async function getFrameworkBenchFiles(
 	}
 
 	const benchFiles = await globby(globs, {
-		cwd: repoRoot()
+		cwd: repoRoot(),
 	});
 
 	/** @type Map<string, string[]> */

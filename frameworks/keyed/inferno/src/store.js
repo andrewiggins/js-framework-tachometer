@@ -28,7 +28,7 @@ const adjectives = [
 	"inexpensive",
 	"cheap",
 	"expensive",
-	"fancy"
+	"fancy",
 ];
 const colours = [
 	"red",
@@ -41,7 +41,7 @@ const colours = [
 	"brown",
 	"white",
 	"black",
-	"orange"
+	"orange",
 ];
 const nouns = [
 	"table",
@@ -56,7 +56,7 @@ const nouns = [
 	"burger",
 	"pizza",
 	"mouse",
-	"keyboard"
+	"keyboard",
 ];
 
 function buildData(count, result) {
@@ -68,7 +68,7 @@ function buildData(count, result) {
 				" " +
 				colours[random(colours.length)] +
 				" " +
-				nouns[random(nouns.length)]
+				nouns[random(nouns.length)],
 		});
 	}
 }
@@ -88,14 +88,14 @@ export class Store {
 
 			data[i] = {
 				id: dataItem.id,
-				label: dataItem.label + " !!!"
+				label: dataItem.label + " !!!",
 			};
 		}
 	}
 
 	delete(id) {
 		const data = this.data;
-		const idx = data.findIndex(d => d.id === id);
+		const idx = data.findIndex((d) => d.id === id);
 
 		data.splice(idx, 1);
 	}

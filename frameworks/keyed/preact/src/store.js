@@ -36,7 +36,7 @@ export class Store {
 			"inexpensive",
 			"cheap",
 			"expensive",
-			"fancy"
+			"fancy",
 		];
 		var colours = [
 			"red",
@@ -49,7 +49,7 @@ export class Store {
 			"brown",
 			"white",
 			"black",
-			"orange"
+			"orange",
 		];
 		var nouns = [
 			"table",
@@ -64,7 +64,7 @@ export class Store {
 			"burger",
 			"pizza",
 			"mouse",
-			"keyboard"
+			"keyboard",
 		];
 		var data = [];
 		for (var i = 0; i < count; i++)
@@ -75,19 +75,19 @@ export class Store {
 					" " +
 					colours[_random(colours.length)] +
 					" " +
-					nouns[_random(nouns.length)]
+					nouns[_random(nouns.length)],
 			});
 		return data;
 	}
 	updateData(mod = 10) {
 		for (let i = 0; i < this.data.length; i += 10) {
 			this.data[i] = Object.assign({}, this.data[i], {
-				label: this.data[i].label + " !!!"
+				label: this.data[i].label + " !!!",
 			});
 		}
 	}
 	delete(id) {
-		var idx = this.data.findIndex(d => d.id === id);
+		var idx = this.data.findIndex((d) => d.id === id);
 		this.data.splice(idx, 1);
 	}
 	run() {

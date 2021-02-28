@@ -66,7 +66,7 @@ export async function bench(specs, options) {
 			"--config",
 			config.configPath,
 			"--json-file",
-			repoRoot("results", config.name + ".json")
+			repoRoot("results", config.name + ".json"),
 		];
 		await toCompletion(runNode(tachBin, args, { debug: options.debug }));
 

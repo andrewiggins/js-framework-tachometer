@@ -17,23 +17,23 @@ export async function resolveFrameworkSpec(spec) {
 			onlyDirectories: true,
 			gitignore: false,
 			markDirectories: true,
-			cwd: repoRoot()
+			cwd: repoRoot(),
 		});
 
-		return nodeModulesFolders.map(pkgLockPath =>
+		return nodeModulesFolders.map((pkgLockPath) =>
 			pkgLockPath.replace("node_modules/", "package.json")
 		);
 	} else if (spec === "built") {
 		const bundles = await globby(["frameworks/*/*/dist/index.js"], globbyOpts);
 
-		return bundles.map(bundlePath =>
+		return bundles.map((bundlePath) =>
 			bundlePath.replace("dist/index.js", "package.json")
 		);
 	} else {
 		let pkgPaths = await globby(["frameworks/*/*/package.json"], globbyOpts);
 
 		if (spec !== "all") {
-			pkgPaths = pkgPaths.filter(pkgPath => pkgPath.includes(toUrl(spec)));
+			pkgPaths = pkgPaths.filter((pkgPath) => pkgPath.includes(toUrl(spec)));
 
 			if (pkgPaths.length == 0) {
 				throw new Error(`No frameworks matched '${spec}'.`);
@@ -48,7 +48,7 @@ export async function resolveFrameworkSpec(spec) {
  * @typedef {{ id: string; name: string; versions: string[]; path: string; baseUrl: string; jsUrl: string; jsType: string; keyedType: "keyed" | "non-keyed"; fullName: string; }} FrameworkData
  * @type {(pkgPath: string) => Promise<FrameworkData>}
  */
-export const createFrameworkData = memoize(async pkgPath => {
+export const createFrameworkData = memoize(async (pkgPath) => {
 	const pkg = JSON.parse(await readFile(pkgPath, "utf-8"));
 
 	const relativePath = path.dirname(path.relative(repoRoot(), pkgPath));
@@ -70,7 +70,7 @@ export const createFrameworkData = memoize(async pkgPath => {
 	if ("frameworkPackages" in metadata) {
 		const pkgLock = await readPkgLock(pkgPath);
 		const packages = metadata["frameworkPackages"];
-		versions = packages.map(pkg => pkgLock.dependencies[pkg].version);
+		versions = packages.map((pkg) => pkgLock.dependencies[pkg].version);
 	} else if ("frameworkPackage" in metadata) {
 		const pkgLock = await readPkgLock(pkgPath);
 		const pkg = metadata["frameworkPackage"];
@@ -106,7 +106,7 @@ export const createFrameworkData = memoize(async pkgPath => {
 		jsUrl,
 		jsType,
 		keyedType,
-		fullName: `${name}-v${versions.join("+")}-${keyedType}`
+		fullName: `${name}-v${versions.join("+")}-${keyedType}`,
 	};
 });
 

@@ -20,7 +20,7 @@ export default {
 	input: "src/Main.js",
 	output: {
 		file: "dist/index.js",
-		format: "es"
+		format: "es",
 	},
-	plugins
+	plugins,
 };

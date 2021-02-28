@@ -10,19 +10,19 @@ export async function publish(_, options) {
 	const src = [
 		"frameworks/*/*/dist/**/*",
 		"frameworks/*/*/benches/**/*",
-		"index.html"
+		"index.html",
 	];
 
 	await cpy(src, "dist", { cwd: repoRoot(), parents: true });
 
 	const bundle = await rollup({
-		input: repoRoot("frameworks/util.js")
+		input: repoRoot("frameworks/util.js"),
 	});
 
 	await bundle.write({
 		file: repoRoot("dist/frameworks/util.js"),
 		format: "esm",
 		sourcemap: false,
-		preferConst: true
+		preferConst: true,
 	});
 }

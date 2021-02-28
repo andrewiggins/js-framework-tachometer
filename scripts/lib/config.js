@@ -20,8 +20,8 @@ function getBaseBenchmarkConfig(htmlFile) {
 		{
 			name: "duration",
 			mode: "performance",
-			entryName: measureName
-		}
+			entryName: measureName,
+		},
 		// {
 		// 	name: "usedJSHeapSize",
 		// 	mode: "expression",
@@ -43,7 +43,7 @@ function getBaseBenchmarkConfig(htmlFile) {
 	return {
 		name,
 		url: htmlUrl,
-		measurement
+		measurement,
 	};
 }
 
@@ -66,8 +66,8 @@ export async function generateConfig(benchId, htmlFiles, options) {
 	// See https://www.npmjs.com/package/tachometer#browsers
 	// and https://www.npmjs.com/package/tachometer#config-file
 	if (Array.isArray(options.browser)) {
-		expand = options.browser.map(browserOpt => ({
-			browser: parseBrowserOption(browserOpt)
+		expand = options.browser.map((browserOpt) => ({
+			browser: parseBrowserOption(browserOpt),
 		}));
 	} else {
 		browser = parseBrowserOption(options.browser);
@@ -79,7 +79,7 @@ export async function generateConfig(benchId, htmlFiles, options) {
 		await mkdir(traceLogDir, { recursive: true });
 
 		browser.trace = {
-			logDir: traceLogDir
+			logDir: traceLogDir,
 		};
 	}
 
@@ -90,7 +90,7 @@ export async function generateConfig(benchId, htmlFiles, options) {
 		benchmarks.push({
 			...baseBenchConfig,
 			browser,
-			expand
+			expand,
 		});
 	}
 
@@ -100,7 +100,7 @@ export async function generateConfig(benchId, htmlFiles, options) {
 		sampleSize: options["sample-size"],
 		timeout: options.timeout,
 		horizons: options.horizon.split(","),
-		benchmarks
+		benchmarks,
 	};
 
 	const configPath = await writeConfig(benchId, config);
@@ -148,7 +148,7 @@ function parseBrowserOption(str) {
 	if (config.name == "chrome") {
 		config.addArguments = [
 			"--js-flags=--expose-gc",
-			"--enable-precise-memory-info"
+			"--enable-precise-memory-info",
 		];
 	}
 

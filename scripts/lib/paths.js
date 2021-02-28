@@ -5,4 +5,5 @@ import { fileURLToPath } from "url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 export const repoRoot = (...args) => path.join(__dirname, "..", "..", ...args);
 /** @type {(str: string) => string} */
-export const toUrl = str => str.replace(/^[A-Za-z]+:/, "/").replace(/\\/g, "/");
+export const toUrl = (str) =>
+	str.replace(/^[A-Za-z]+:/, "/").replace(/\\/g, "/");

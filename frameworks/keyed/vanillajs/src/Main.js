@@ -35,7 +35,7 @@ function buildData(count = 1000) {
 		"inexpensive",
 		"cheap",
 		"expensive",
-		"fancy"
+		"fancy",
 	];
 	var colours = [
 		"red",
@@ -48,7 +48,7 @@ function buildData(count = 1000) {
 		"brown",
 		"white",
 		"black",
-		"orange"
+		"orange",
 	];
 	var nouns = [
 		"table",
@@ -63,7 +63,7 @@ function buildData(count = 1000) {
 		"burger",
 		"pizza",
 		"mouse",
-		"keyboard"
+		"keyboard",
 	];
 	var data = [];
 	for (var i = 0; i < count; i++)
@@ -74,12 +74,12 @@ function buildData(count = 1000) {
 				" " +
 				colours[_random(colours.length)] +
 				" " +
-				nouns[_random(nouns.length)]
+				nouns[_random(nouns.length)],
 		});
 	return data;
 }
 
-var getParentId = function(elem) {
+var getParentId = function (elem) {
 	while (elem) {
 		if (elem.tagName === "TR") {
 			return elem.data_id;
@@ -171,7 +171,7 @@ class Main {
 			</div>
 		`;
 
-		main.addEventListener("click", e => {
+		main.addEventListener("click", (e) => {
 			//console.log("listener",e);
 			if (e.target.matches("#add")) {
 				e.preventDefault();
@@ -200,13 +200,13 @@ class Main {
 			} else if (e.target.matches(".remove")) {
 				e.preventDefault();
 				let id = getParentId(e.target);
-				let idx = this.data.findIndex(row => row.id === id);
+				let idx = this.data.findIndex((row) => row.id === id);
 				//console.log("delete",idx);
 				this.delete(idx);
 			} else if (e.target.matches(".lbl")) {
 				e.preventDefault();
 				let id = getParentId(e.target);
-				let idx = this.data.findIndex(row => row.id === id);
+				let idx = this.data.findIndex((row) => row.id === id);
 				//console.log("select",idx);
 				this.select(idx);
 			}

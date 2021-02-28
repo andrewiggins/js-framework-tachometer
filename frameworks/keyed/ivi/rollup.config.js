@@ -6,33 +6,33 @@ export default {
 	input: "src/index.js",
 	output: {
 		file: "dist/index.js",
-		format: "es"
+		format: "es",
 	},
 	plugins: [
 		replace({
 			values: {
 				"process.env.NODE_ENV": '"production"',
-				"process.env.IVI_TARGET": '"evergreen"'
-			}
+				"process.env.IVI_TARGET": '"evergreen"',
+			},
 		}),
 		nodeResolve(),
 		terser({
 			parse: {
-				ecma: 8
+				ecma: 8,
 			},
 			compress: {
 				ecma: 5,
 				inline: true,
 				reduce_funcs: false,
 				passes: 5,
-				comparisons: false
+				comparisons: false,
 			},
 			output: {
 				ecma: 5,
-				comments: false
+				comments: false,
 			},
 			toplevel: true,
-			module: true
-		})
-	]
+			module: true,
+		}),
+	],
 };

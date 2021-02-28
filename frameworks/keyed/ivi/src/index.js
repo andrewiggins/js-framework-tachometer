@@ -10,7 +10,7 @@ import {
 	useSelect,
 	selector,
 	TrackByKey,
-	key
+	key,
 } from "ivi";
 import { h1, div, span, table, tbody, tr, td, a, button } from "ivi-html";
 
@@ -19,7 +19,7 @@ import { h1, div, span, table, tbody, tr, td, a, button } from "ivi-html";
 // - state is completely immutable
 // - each row is a stateful component
 
-const random = max => Math.round(Math.random() * 1000) % max;
+const random = (max) => Math.round(Math.random() * 1000) % max;
 const A = [
 	"pretty",
 	"large",
@@ -45,7 +45,7 @@ const A = [
 	"inexpensive",
 	"cheap",
 	"expensive",
-	"fancy"
+	"fancy",
 ];
 const C = [
 	"red",
@@ -58,7 +58,7 @@ const C = [
 	"brown",
 	"white",
 	"black",
-	"orange"
+	"orange",
 ];
 const N = [
 	"table",
@@ -73,7 +73,7 @@ const N = [
 	"burger",
 	"pizza",
 	"mouse",
-	"keyboard"
+	"keyboard",
 ];
 
 let nextId = 1;
@@ -84,7 +84,7 @@ function buildData(count) {
 			id: nextId++,
 			label: `${A[random(A.length)]} ${C[random(C.length)]} ${
 				N[random(N.length)]
-			}`
+			}`,
 		};
 	}
 	return data;
@@ -92,18 +92,18 @@ function buildData(count) {
 
 const INITIAL_STATE = { data: [], selected: 0 };
 let state = INITIAL_STATE;
-const m = fn =>
-	function() {
+const m = (fn) =>
+	function () {
 		state = fn.apply(_, [state, ...arguments]);
 		withNextFrame(requestDirtyCheck)();
 	};
 
-const useSelected = selector(item => state.selected === item.id);
+const useSelected = selector((item) => state.selected === item.id);
 const run = m(({ selected }) => ({ data: buildData(1000), selected }));
 const runlots = m(({ selected }) => ({ data: buildData(10000), selected }));
 const add = m(({ data, selected }) => ({
 	data: data.concat(buildData(1000)),
-	selected
+	selected,
 }));
 const update = m(({ data, selected }) => {
 	data = data.slice();
@@ -134,7 +134,7 @@ const removeIcon = elementProto(
 	span("glyphicon glyphicon-remove", { "aria-hidden": "true" })
 );
 const RemoveButton = a(_, _, removeIcon());
-const Row = component(c => {
+const Row = component((c) => {
 	let _item;
 	const isSelected = useSelected(c);
 	const s = onClick(() => {
@@ -143,20 +143,20 @@ const Row = component(c => {
 	const r = onClick(() => {
 		remove(_item);
 	});
-	return item => (
+	return (item) => (
 		(_item = item),
 		tr(isSelected(item) ? "danger" : "", _, [
 			td("col-md-1", _, item.id),
 			td("col-md-4", _, Events(s, a(_, _, item.label))),
 			td("col-md-1", _, Events(r, RemoveButton)),
-			td("col-md-6")
+			td("col-md-6"),
 		])
 	);
 });
 
-const RowList = component(c => {
+const RowList = component((c) => {
 	const getItems = useSelect(c, () => state.data);
-	return () => TrackByKey(getItems().map(item => key(item.id, Row(item))));
+	return () => TrackByKey(getItems().map((item) => key(item.id, Row(item))));
 });
 
 const Button = (text, id, cb) =>
@@ -186,9 +186,9 @@ withNextFrame(() => {
 							Button("Append 1,000 rows", "add", add),
 							Button("Update every 10th row", "update", update),
 							Button("Clear", "clear", clear),
-							Button("Swap Rows", "swaprows", swaprows)
+							Button("Swap Rows", "swaprows", swaprows),
 						])
-					)
+					),
 				])
 			),
 			table(
@@ -196,7 +196,7 @@ withNextFrame(() => {
 				_,
 				tbody(_, _, RowList())
 			),
-			removeIcon("preloadicon glyphicon glyphicon-remove")
+			removeIcon("preloadicon glyphicon glyphicon-remove"),
 		]),
 		document.getElementById("main")
 	);

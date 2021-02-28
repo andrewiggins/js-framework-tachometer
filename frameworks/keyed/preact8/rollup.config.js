@@ -11,17 +11,17 @@ module.exports = {
 		format: "es",
 		compact: minify,
 		entryFileNames: `[name].js`,
-		chunkFileNames: `[name]-[hash].js`
+		chunkFileNames: `[name]-[hash].js`,
 	},
 	plugins: [
 		babel({ babelHelpers: "bundled", exclude: /node_modules/ }),
 		// @ts-ignore - nodeResolve doesn't export .default in cjs import
 		nodeResolve({
-			extensions: [".mjs", ".js", ".jsx", ".json", ".node"]
+			extensions: [".mjs", ".js", ".jsx", ".json", ".node"],
 		}),
-		minify ? terser() : null
+		minify ? terser() : null,
 	],
 	watch: {
-		clearScreen: false
-	}
+		clearScreen: false,
+	},
 };

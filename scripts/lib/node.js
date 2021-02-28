@@ -14,7 +14,7 @@ export function runNode(path, args, options = {}) {
 	}
 	return spawn(process.execPath, args, {
 		stdio: options.stdio || "inherit",
-		cwd: options.cwd || repoRoot()
+		cwd: options.cwd || repoRoot(),
 	});
 }
 
