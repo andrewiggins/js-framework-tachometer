@@ -22,12 +22,12 @@
 				getById,
 				testElement,
 				afterFrame,
-				measureName
+				measureName,
 			} from "../../../util.js";
 
 			const button = getById("add");
 
-			afterFrame(function() {
+			afterFrame(function () {
 				testElement("tr:nth-child(1000) > td:nth-child(2) > a");
 				performance.mark("stop");
 				performance.measure(measureName, "start", "stop");
