@@ -78,7 +78,7 @@ export async function build(specs, options) {
 /** @type {import('dot').TemplateSettings} */
 const templateSettings = {
 	...dot.templateSettings,
-	varname: "frameworks, benchmarks",
+	varname: "frameworks, benchmarks, builtBy",
 	strip: false
 };
 
@@ -87,11 +87,17 @@ async function compileIndex() {
 	const pkgPaths = await resolveFrameworkSpec("setup");
 	const frameworks = await Promise.all(pkgPaths.map(createFrameworkData));
 
+	let builtBy = "local";
+	if (process.env.GITHUB_ACTIONS == "true") {
+		const env = process.env;
+		builtBy = `${env.GITHUB_WORKFLOW}#${env.GITHUB_RUN_NUMBER} (${env.GITHUB_RUN_ID})`;
+	}
+
 	const templatePath = repoRoot("index.dot.html");
 	const rawTemplate = await readFile(templatePath, "utf-8");
 	const render = dot.template(rawTemplate, templateSettings);
 
-	const html = render(frameworks, benches);
+	const html = render(frameworks, benches, builtBy);
 	await writeFile(templatePath.replace(".dot.html", ".html"), html, "utf-8");
 }
 
