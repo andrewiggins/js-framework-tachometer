@@ -38,7 +38,7 @@ jobs:
           name: dist
           path: dist
 
-  01_run1k:
+  bench_01_run1k:
     name: Bench 01_run1k
     runs-on: ubuntu-latest
     timeout-minutes: 5
