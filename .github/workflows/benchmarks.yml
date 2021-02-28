@@ -58,7 +58,7 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: dist
-      - run: node ./scripts bench 01_runk1k
+      - run: node ./scripts bench -b 01_runk1k
       - uses: actions/upload-artifact@v2
         with:
           name: results
