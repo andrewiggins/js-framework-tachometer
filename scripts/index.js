@@ -6,6 +6,8 @@ import { build } from "./build.js";
 import { bench } from "./bench.js";
 import { publish } from "./publish.js";
 
+const IS_CI = process.env.CI === "true";
+
 /**
  * @typedef {{ debug: boolean; bench: string[]; _?: string[] }} CmdLineOptions
  */
@@ -55,17 +57,17 @@ async function main() {
 		.option(
 			"-n --sample-size",
 			"Minimum number of times to run each framework per benchmark",
-			50
+			IS_CI ? 10 : 25 // Tach default: 50
 		)
 		.option(
 			"-t --timeout",
 			"The maximum number of minutes to spend auto-sampling",
-			3
+			1 // Tach default: 3
 		)
 		.option(
 			"-h --horizon",
 			'The degrees of difference to try and resolve when auto-sampling ("N%" or "Nms", comma-delimited)',
-			"10%"
+			"5%" // Tach default: 10%
 		)
 		.option(
 			"--trace",
