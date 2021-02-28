@@ -58,8 +58,60 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: dist
-      - run: node ./scripts bench -b 01_runk1k
+      - run: node ./scripts bench -b 01_run1k
       - uses: actions/upload-artifact@v2
         with:
           name: results
           path: results/01_run1k.json
+
+  bench_02_replace1k:
+    name: Bench 02_replace1k
+    runs-on: ubuntu-latest
+    needs: prepare
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "14.x"
+      - name: Run npm ci
+        shell: bash
+        run: |
+          [[ "$(uname -o)" == "Msys" ]] && exe="chromedriver.exe" || exe="chromedriver"
+          export CHROMEDRIVER_FILEPATH=$(which $exe)
+          echo $CHROMEDRIVER_FILEPATH
+          npm ci
+      - uses: actions/download-artifact@v2
+        with:
+          name: dist
+      - run: node ./scripts bench -b 02_replace1k
+      - uses: actions/upload-artifact@v2
+        with:
+          name: results
+          path: results/02_replace1k.json
+
+  bench_03_update10th1k:
+    name: Bench 03_update10th1k
+    runs-on: ubuntu-latest
+    needs: prepare
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "14.x"
+      - name: Run npm ci
+        shell: bash
+        run: |
+          [[ "$(uname -o)" == "Msys" ]] && exe="chromedriver.exe" || exe="chromedriver"
+          export CHROMEDRIVER_FILEPATH=$(which $exe)
+          echo $CHROMEDRIVER_FILEPATH
+          npm ci
+      - uses: actions/download-artifact@v2
+        with:
+          name: dist
+      - run: node ./scripts bench -b 03_update10th1k
+      - uses: actions/upload-artifact@v2
+        with:
+          name: results
+          path: results/03_update10th1k_x16.json
