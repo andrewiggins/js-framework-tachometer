@@ -78,7 +78,7 @@ jobs:
 
   publish:
     name: Publish
-    needs: build
+    needs: benchmarks
     runs-on: ubuntu-latest
     env:
       PUBLISH_BRANCH: gh-pages
