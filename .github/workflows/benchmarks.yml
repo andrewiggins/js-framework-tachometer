@@ -115,3 +115,159 @@ jobs:
         with:
           name: results
           path: results/03_update10th1k_x16.json
+
+  bench_04_select1k:
+    name: Bench 04_select1k
+    runs-on: ubuntu-latest
+    needs: prepare
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "14.x"
+      - name: Run npm ci
+        shell: bash
+        run: |
+          [[ "$(uname -o)" == "Msys" ]] && exe="chromedriver.exe" || exe="chromedriver"
+          export CHROMEDRIVER_FILEPATH=$(which $exe)
+          echo $CHROMEDRIVER_FILEPATH
+          npm ci
+      - uses: actions/download-artifact@v2
+        with:
+          name: dist
+      - run: node ./scripts bench -b 04_select1k
+      - uses: actions/upload-artifact@v2
+        with:
+          name: results
+          path: results/04_select1k.json
+
+  bench_05_swap1k:
+    name: Bench 05_swap1k
+    runs-on: ubuntu-latest
+    needs: prepare
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "14.x"
+      - name: Run npm ci
+        shell: bash
+        run: |
+          [[ "$(uname -o)" == "Msys" ]] && exe="chromedriver.exe" || exe="chromedriver"
+          export CHROMEDRIVER_FILEPATH=$(which $exe)
+          echo $CHROMEDRIVER_FILEPATH
+          npm ci
+      - uses: actions/download-artifact@v2
+        with:
+          name: dist
+      - run: node ./scripts bench -b 05_swap1k
+      - uses: actions/upload-artifact@v2
+        with:
+          name: results
+          path: results/05_swap1k.json
+
+  bench_06_remove-one-1k:
+    name: Bench 06_remove-one-1k
+    runs-on: ubuntu-latest
+    needs: prepare
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "14.x"
+      - name: Run npm ci
+        shell: bash
+        run: |
+          [[ "$(uname -o)" == "Msys" ]] && exe="chromedriver.exe" || exe="chromedriver"
+          export CHROMEDRIVER_FILEPATH=$(which $exe)
+          echo $CHROMEDRIVER_FILEPATH
+          npm ci
+      - uses: actions/download-artifact@v2
+        with:
+          name: dist
+      - run: node ./scripts bench -b 06_remove-one-1k
+      - uses: actions/upload-artifact@v2
+        with:
+          name: results
+          path: results/06_remove-one-1k.json
+
+  bench_07_create10k:
+    name: Bench 07_create10k
+    runs-on: ubuntu-latest
+    needs: prepare
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "14.x"
+      - name: Run npm ci
+        shell: bash
+        run: |
+          [[ "$(uname -o)" == "Msys" ]] && exe="chromedriver.exe" || exe="chromedriver"
+          export CHROMEDRIVER_FILEPATH=$(which $exe)
+          echo $CHROMEDRIVER_FILEPATH
+          npm ci
+      - uses: actions/download-artifact@v2
+        with:
+          name: dist
+      - run: node ./scripts bench -b 07_create10k
+      - uses: actions/upload-artifact@v2
+        with:
+          name: results
+          path: results/07_create10k.json
+
+  bench_08_create1k-after1k:
+    name: Bench 08_create1k-after1k
+    runs-on: ubuntu-latest
+    needs: prepare
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "14.x"
+      - name: Run npm ci
+        shell: bash
+        run: |
+          [[ "$(uname -o)" == "Msys" ]] && exe="chromedriver.exe" || exe="chromedriver"
+          export CHROMEDRIVER_FILEPATH=$(which $exe)
+          echo $CHROMEDRIVER_FILEPATH
+          npm ci
+      - uses: actions/download-artifact@v2
+        with:
+          name: dist
+      - run: node ./scripts bench -b 08_create1k-after1k
+      - uses: actions/upload-artifact@v2
+        with:
+          name: results
+          path: results/08_create1k-after1k_x2.json
+
+  bench_09_clear1k:
+    name: Bench 09_clear1k
+    runs-on: ubuntu-latest
+    needs: prepare
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "14.x"
+      - name: Run npm ci
+        shell: bash
+        run: |
+          [[ "$(uname -o)" == "Msys" ]] && exe="chromedriver.exe" || exe="chromedriver"
+          export CHROMEDRIVER_FILEPATH=$(which $exe)
+          echo $CHROMEDRIVER_FILEPATH
+          npm ci
+      - uses: actions/download-artifact@v2
+        with:
+          name: dist
+      - run: node ./scripts bench -b 09_clear1k
+      - uses: actions/upload-artifact@v2
+        with:
+          name: results
+          path: results/09_clear1k_x8.json
