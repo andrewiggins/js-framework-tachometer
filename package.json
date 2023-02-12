@@ -45,7 +45,7 @@
     "rollup": "^2.40.0",
     "sade": "^1.7.4",
     "sirv-cli": "^1.0.11",
-    "tachometer": "^0.5.8"
+    "tachometer": "^0.7.0"
   },
   "dependencies": {
     "afterframe": "^1.0.1",
